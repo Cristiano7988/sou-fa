@@ -3,6 +3,7 @@ require("dotenv").config({ path: env_file });
 
 const express = require("express");
 const cors = require("cors");
+const chalk = require("chalk");
 
 const app = express();
 
@@ -13,7 +14,12 @@ app.use(express.json());
 let ambiente = "Desenvolvimento";
 if (["prod", "production"].includes(process.env.NODE_ENV.toLowerCase())) ambiente = "Produção";
 
-console.log(`*** Ambiente de ${ambiente} ***\nServidor rodando no ambiente de ${ambiente}!\n`)
+console.log(chalk.blue(`
+****************************************************
+*********** Ambiente de ${ambiente} ************
+* Servidor rodando no ambiente de ${ambiente}! *
+****************************************************
+`));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
