@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
  
         return res.send({ usuario });
     } catch (error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }
 
@@ -39,7 +39,7 @@ exports.update = async (req, res) => {
 
         return res.send({ usuario });
     } catch (error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }
 
@@ -53,6 +53,6 @@ exports.destroy = async (req, res) => {
 
         return res.send({ usuario });
     } catch (error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }

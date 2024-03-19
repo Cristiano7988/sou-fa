@@ -8,7 +8,7 @@ exports.create = async (req, res) => {
 
         const { expiresAt } = await getExpiration();
     
-        const rawAccessToken = await generateAccessToken();
+        const { rawAccessToken } = await generateAccessToken();
         const accessToken = await bcrypt.hash(rawAccessToken, 10);
     
         let usuario = Usuario.build({ email, senha, expiresAt, accessToken: rawAccessToken });
@@ -18,6 +18,6 @@ exports.create = async (req, res) => {
         
         return res.send({ usuario });
     } catch (error) {
-        return res.send({ error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }

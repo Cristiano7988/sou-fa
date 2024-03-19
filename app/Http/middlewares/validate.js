@@ -23,7 +23,7 @@ const accessToken = async (req, res, next) => {
 
         return next();
     } catch (error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }
 
@@ -37,7 +37,7 @@ const user = async (req, res, next) => {
         req.usuario = usuario;
         return next();
     } catch (error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 }
 
