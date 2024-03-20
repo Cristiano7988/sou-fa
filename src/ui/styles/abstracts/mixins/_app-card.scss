@@ -1,0 +1,15 @@
+@mixin app-card {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+    border: $borderSize solid $primary;
+    border-radius: $corner;
+    padding: $spaced;
+    gap: $halfSpaced;
+    min-width: 400px;
+
+    .app-input-container { @include app-input-container }
+    .app-button { @include app-button }
+}

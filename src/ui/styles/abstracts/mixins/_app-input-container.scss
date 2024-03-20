@@ -1,0 +1,65 @@
+@mixin app-input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    label {
+        position: absolute;
+        top: calc((25% + #{$halfSpaced}) / 2);
+        left: $halfSpaced;
+        color: $mediumPrimary;
+        background: $secondary;
+        transition: top, font-size, color, padding;
+        transition-duration: $duration;
+        cursor: text;
+    }
+
+    .app-input {
+        width: 100%;
+        text-align: left;
+        margin-bottom: $halfSpaced;
+
+        input {
+            border: $borderSize solid $lightPrimary;
+            border-radius: $corner;
+            padding: $halfSpaced;
+            width: 100%;
+            box-sizing: border-box;
+            color: $mediumPrimary;
+
+            &:focus {
+                outline-color: $primary;
+            }
+        }
+
+        span {
+            font-size: small;
+        }
+    }
+    
+    .app-password-visibility {
+        position: absolute;
+        top: calc((25% ) / 2);
+        right: $halfSpaced;
+        cursor: pointer;
+        color: $lightPrimary;
+    }
+
+    &.focused {
+        label {
+            padding: 0 5px;
+            top: calc(-25% / 2);
+            font-size: small;
+            color: $primary;
+        }
+    }
+
+    &.error {
+        label, * {
+            color: $danger;
+        }
+        input {
+            border: $borderSize solid $danger;
+        }
+    }
+}

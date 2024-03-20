@@ -1,0 +1,16 @@
+@mixin app-container {
+    max-width: 1200px;
+    margin: $spaced auto;
+    padding-left: $spaced;
+    padding-right: $spaced;
+    display: flex;
+    flex-direction: column;
+    gap: $spaced;
+
+    h1 {
+        color: $mediumPrimary;
+        text-transform: capitalize;
+    }
+
+    .app-card { @include app-card }
+}

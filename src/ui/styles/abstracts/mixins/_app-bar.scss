@@ -1,0 +1,73 @@
+@mixin app-bar {
+    background: $primary;
+    color: $secondary;
+
+    .app-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spaced;
+
+        .app-nav-links {
+            display: flex;
+            margin: 0 $spaced;
+            flex-grow: 1;
+            justify-content: space-between;
+
+            div {
+                display: flex;
+                gap: $spaced;
+
+                a {
+                    color: $secondary;
+                    
+                    &:hover {
+                        color: $lighterSecondary;
+                    }
+                    &:active {
+                        color: $secondary;
+                    }
+                }
+            }
+        }
+
+        .app-pop-up-menu-trigger {
+            cursor: pointer;
+            
+            .app-pop-up-menu {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: $lighterSecondary;
+                margin: $spaced;
+                color: $primary;
+                border: $borderSize solid $primary;
+                border-radius: $corner;
+            }
+
+            &.show {
+                .app-pop-up-menu {
+                    display: flex;
+                    flex-direction: column;
+                   
+                    a {
+                        padding: $halfSpaced;
+
+                        &:hover {
+                            background: $lighterPrimary;
+                        }
+
+                        &:visited {
+                            color: $primary;
+                        }
+
+                        &:active {
+                            color: $mediumPrimary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

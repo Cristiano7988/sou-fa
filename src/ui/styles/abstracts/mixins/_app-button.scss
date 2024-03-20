@@ -1,0 +1,11 @@
+@mixin app-button {
+    background: $primary;
+    color: $secondary;
+    border: none;
+    border-radius: $corner;
+    padding: $halfSpaced $spaced;
+    display: inline-block;
+    width: fit-content;
+    align-self: center;
+    cursor: pointer;
+}
