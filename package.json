@@ -1,7 +1,7 @@
 {
-  "name": "sou-fa",
+  "name": "cv",
   "version": "0.1.0",
-  "homepage": "http://Cristiano7988.github.io/sou-fa/",
+  "homepage": "http://Cristiano7988.github.io/cv/",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
