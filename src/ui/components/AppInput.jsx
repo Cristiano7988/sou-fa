@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-export const AppInput = ({ type = "text", placeholder, required = false, value, handleChange, errorMessage  }) => {
+export const AppInput = ({ type = "text", placeholder, required = false, value, handleChange, errorMessage, className = "", id = ""  }) => {
     const [focus, setFocus] = useState(!!value);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -21,6 +21,7 @@ export const AppInput = ({ type = "text", placeholder, required = false, value, 
     return <div
         className={[
             "app-input-container",
+            className,
             focus ? "focused" : "",
             errorMessage ? "error" : ""
         ].join(" ")}
@@ -31,7 +32,7 @@ export const AppInput = ({ type = "text", placeholder, required = false, value, 
         <label children={[placeholder, required ? "*" : ""].join(" ")} />
 
         <div className="app-input">
-            <input type={showPassword ? "text" : type} value={value} onChange={handleChange} />
+            <input id={id} type={showPassword ? "text" : type} value={value} onChange={handleChange} />
             {errorMessage && <span children={"* " + errorMessage} />}
         </div>
 

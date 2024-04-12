@@ -1,6 +1,9 @@
 @mixin app-bar {
     background: $primary;
     color: $secondary;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 
     .app-toolbar {
         display: flex;

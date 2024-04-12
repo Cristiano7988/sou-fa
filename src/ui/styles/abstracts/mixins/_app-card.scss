@@ -7,8 +7,98 @@
     border: $borderSize solid $primary;
     border-radius: $corner;
     padding: $spaced;
-    gap: $halfSpaced;
-    min-width: 400px;
+
+    @media only screen and (min-width: 767px) {
+        min-width: 400px; // Apenas para desktop
+    }
+
+    .card-icon {
+        cursor: pointer;
+    }
+
+    .checkout {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: $spaced;
+
+        #form-checkout {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-top: $spaced;
+        
+            *.hidden {
+                visibility: hidden;
+                position: absolute;
+            }
+
+            .par-de-campos-pequenos {
+                display: flex;
+                gap: 20px;
+                flex-grow: 1;
+            }
+
+            .container {
+                height: 21px;
+            }
+            
+            .container, select {
+                border: $borderSize solid $lightPrimary;
+                border-radius: $corner;
+                padding: $halfSpaced;
+                color: $mediumPrimary;
+                margin-bottom: $halfSpaced;
+
+            }
+            .container, select, .app-input-container {
+                    flex-grow: 1;
+                }
+            
+            select {
+                height: fit-content;
+                font-size: 16px;
+                background-image: url("data:image/svg+xml;utf8,<svg fill='#{$lightPrimary}' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+                background-repeat: no-repeat;
+                background-position-x: 100%;
+                background-position-y: 50%;
+                -webkit-appearance: none;
+                background-position-x: calc(100% - $halfSpaced);
+            }
+
+            progress {
+                height: 5px;
+                margin-bottom: $halfSpaced;
+                width: 100%;
+            }
+
+            .botoes-de-acao {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    }
+
+    .opcoes-de-cartao {
+        display: flex;
+        flex-direction: column;
+        gap: $spaced;
+        flex-wrap: wrap;
+        margin: auto;
+
+        .thumbnails-dos-cartoes {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0 $spaced;
+
+            img {
+                max-width: 50px;
+            }
+        }
+    }
 
     .app-input-container { @include app-input-container }
     .app-button { @include app-button }

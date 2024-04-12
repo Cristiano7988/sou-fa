@@ -1,10 +1,12 @@
 import { CircularProgress } from "@mui/material";
 import { useState } from "react";
 
-export const AppButton = ({ children, asyncEvent }) => {
+export const AppButton = ({ children, asyncEvent = false, type = "button", id = "" }) => {
     const [carregando, setCarregando] = useState(false);
 
     const handleClick = () => {
+        if (!asyncEvent) return;
+ 
         setCarregando(true);
 
         asyncEvent()
@@ -19,8 +21,9 @@ export const AppButton = ({ children, asyncEvent }) => {
     return carregando
         ? <CircularProgress size={30} style={{ alignSelf: "center" }} />
         : <button
+            id={id}
             className="app-button"
-            type="button"
+            type={type}
             children={children}
             onClick={handleClick}
         />

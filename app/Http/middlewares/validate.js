@@ -27,7 +27,7 @@ const accessToken = async (req, res, next) => {
     }
 }
 
-const user = async (req, res, next) => {
+const userEmail = async (req, res, next) => {
     try {
         const { email } = req.body;
 
@@ -41,9 +41,25 @@ const user = async (req, res, next) => {
     }
 }
 
+const userId = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) return res.status(403).send({ message: "ID não informado." });
+
+        const usuario = await Usuario.findOne({ where: { id } });
+        if (!usuario) return res.status(404).send({ message: "Usuário não encontrado." });
+    
+        req.usuario = usuario;
+        return next();
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
+}
+
 const validate = {
     accessToken,
-    user
+    userEmail,
+    userId,
 }
 
 module.exports = validate;
