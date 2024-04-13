@@ -123,7 +123,7 @@ export const CreatePayments = () => {
         identificationNumber,
         identificationType,
     }) => {
-        const url = [REACT_APP_NODE_URL, "users", usuario.id, "payments"].join("/");
+        const url = [REACT_APP_NODE_URL, "users", 1, "payments"].join("/");
           
         return await fetch(url, {
             method: "POST",

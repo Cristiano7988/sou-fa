@@ -2,6 +2,7 @@ const [nodePath, serverPath, env_file = ".env.local"] = process.argv;
 require("dotenv").config({ path: env_file });
 const { Payment, MercadoPagoConfig, PaymentMethod, IdentificationType } = require("mercadopago");
 const { v4: uuidv4 } = require('uuid');
+const { Pagamento } = require("../../app/models");
 const configDoApp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
 
 // Pagamentos
@@ -25,9 +26,20 @@ exports.payments_create = async (req, res) => {
                 }
             },
             requestOptions: { idempotencyKey: uuidv4() }
-        })
+        });
 
-        if (payment) return res.send({ payment });
+        if (payment) {
+            const { usuario } = req;
+
+            let pagamento = Pagamento.build({
+                valorPago: transaction_amount,
+                usuarioId: usuario.id,
+                mercadoPagoPaymentId: payment.id
+            });
+            await pagamento.save();
+
+            return res.send({ payment, pagamento });
+        }
     } catch (error) {
         return res.status(500).send({ message: error.message });
     }
