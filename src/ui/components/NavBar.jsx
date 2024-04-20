@@ -19,7 +19,7 @@ export const NavBar = () => {
             <div className="app-nav-links">
                 <div>
                     <NavLink to="/" children={<b>{appName}</b>} />
-                    {usuario && <NavLink to="/dashboard" children="Dashboard" />}
+                    {usuario && <NavLink to="/conteudos" children="Conteúdos" />}
                 </div>
                 {!usuario && <div>
                     {login && <NavLink to="/login" children="Login" />}

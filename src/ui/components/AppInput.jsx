@@ -17,6 +17,7 @@ export const AppInput = ({ type = "text", placeholder, required = false, value, 
     }
 
     const togglePassword = () => setShowPassword(!showPassword);
+    const step = type == "number" && { step: 0.01 };
 
     return <div
         className={[
@@ -32,7 +33,7 @@ export const AppInput = ({ type = "text", placeholder, required = false, value, 
         <label children={[placeholder, required ? "*" : ""].join(" ")} />
 
         <div className="app-input">
-            <input id={id} type={showPassword ? "text" : type} value={value} onChange={handleChange} />
+            <input id={id} type={showPassword ? "text" : type} value={value} onChange={handleChange} {...step} />
             {errorMessage && <span children={"* " + errorMessage} />}
         </div>
 

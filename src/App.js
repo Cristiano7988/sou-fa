@@ -4,7 +4,8 @@ import { Auth } from "./pages/Auth";
 import { AuthLayout } from "./data/AuthLayout";
 import { AppLayout } from "./data/AppLayout";
 import { Page } from "./pages/Page";
-import { CreatePayments } from "./pages/payments/CreatePayments";
+import { CreateConteudos } from "./pages/conteudos/CreateConteudos";
+import { ListConteudos } from "./pages/conteudos/ListConteudos";
 
 const getUserData = () =>
     new Promise((resolve) => {
@@ -22,9 +23,9 @@ export const router = createBrowserRouter(
             <Route exact path="/cadastro" element={<Auth />} />
             <Route exact path="/login" element={<Auth />} />
                 <Route element={<AuthLayout />}>
-                    <Route exact path="/perfil" element={<Page />} />
-                    <Route exact path="/pagamentos/create" element={<CreatePayments />} />
-                    <Route exact path="/dashboard" element={<Page />} />
+                    <Route path="/conteudos" element={<ListConteudos />} />
+                    <Route path="/conteudos/create" element={<CreateConteudos />} />
+                    <Route path="/perfil" element={<Page />} />
                     <Route path="*" element={<ErrorPage />} />
                 </Route>
         </Route>

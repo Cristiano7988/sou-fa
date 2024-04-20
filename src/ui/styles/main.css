@@ -273,29 +273,29 @@ input[type="checkbox"], input[type="radio"] {
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 20px; }
-      .app-container .app-card .checkout #form-checkout {
+      .app-container .app-card .checkout [id^=form-checkout] {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         margin-top: 20px; }
-        .app-container .app-card .checkout #form-checkout *.hidden {
+        .app-container .app-card .checkout [id^=form-checkout] *.hidden {
           visibility: hidden;
           position: absolute; }
-        .app-container .app-card .checkout #form-checkout .par-de-campos-pequenos {
+        .app-container .app-card .checkout [id^=form-checkout] .par-de-campos-pequenos {
           display: flex;
           gap: 20px;
           flex-grow: 1; }
-        .app-container .app-card .checkout #form-checkout .container {
+        .app-container .app-card .checkout [id^=form-checkout] .container {
           height: 21px; }
-        .app-container .app-card .checkout #form-checkout .container, .app-container .app-card .checkout #form-checkout select {
+        .app-container .app-card .checkout [id^=form-checkout] .container, .app-container .app-card .checkout [id^=form-checkout] select {
           border: 1px solid rgba(0, 0, 0, 0.25);
           border-radius: 5px;
           padding: 10px;
           color: rgba(0, 0, 0, 0.5);
           margin-bottom: 10px; }
-        .app-container .app-card .checkout #form-checkout .container, .app-container .app-card .checkout #form-checkout select, .app-container .app-card .checkout #form-checkout .app-input-container {
+        .app-container .app-card .checkout [id^=form-checkout] .container, .app-container .app-card .checkout [id^=form-checkout] select, .app-container .app-card .checkout [id^=form-checkout] .app-input-container {
           flex-grow: 1; }
-        .app-container .app-card .checkout #form-checkout select {
+        .app-container .app-card .checkout [id^=form-checkout] select {
           height: fit-content;
           font-size: 16px;
           background-image: url("data:image/svg+xml;utf8,<svg fill='rgba(0, 0, 0, 0.25)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
@@ -304,11 +304,11 @@ input[type="checkbox"], input[type="radio"] {
           background-position-y: 50%;
           -webkit-appearance: none;
           background-position-x: calc(100% - $halfSpaced); }
-        .app-container .app-card .checkout #form-checkout progress {
+        .app-container .app-card .checkout [id^=form-checkout] progress {
           height: 5px;
           margin-bottom: 10px;
           width: 100%; }
-        .app-container .app-card .checkout #form-checkout .botoes-de-acao {
+        .app-container .app-card .checkout [id^=form-checkout] .botoes-de-acao {
           display: flex;
           width: 100%;
           justify-content: space-between; }

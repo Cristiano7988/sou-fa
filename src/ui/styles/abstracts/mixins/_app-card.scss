@@ -22,7 +22,7 @@
         justify-content: space-between;
         gap: $spaced;
 
-        #form-checkout {
+        [id^=form-checkout] {
             display: flex;
             flex-direction: column;
             flex-grow: 1;

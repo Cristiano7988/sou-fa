@@ -2,6 +2,7 @@ const validate = require("../app/Http/middlewares/validate");
 const authController = require("./controllers/authController");
 const mercadoPagoController = require("./controllers/mercadoPagoController");
 const usuarioController = require("./controllers/usuarioController");
+const conteudoController = require("./controllers/conteudoController");
 
 module.exports = (app) => {
     app.post("/usuario", usuarioController.create);
@@ -19,6 +20,14 @@ module.exports = (app) => {
         router.use([validate.userId]);
 
         router.post("/", mercadoPagoController.payments_create);
+    });
+
+    app.get("/conteudos", conteudoController.list);
+    app.group("/users/:id/conteudos", (router) => {
+        router.mergeParams = true;
+        router.use([validate.userId]);
+
+        router.post("/", conteudoController.create);
     });
 
     // Meios de pagamento

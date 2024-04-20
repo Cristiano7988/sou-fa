@@ -2,7 +2,7 @@ const [nodePath, serverPath, env_file = ".env.local"] = process.argv;
 require("dotenv").config({ path: env_file });
 const { Payment, MercadoPagoConfig, PaymentMethod, IdentificationType } = require("mercadopago");
 const { v4: uuidv4 } = require('uuid');
-const { Pagamento } = require("../../app/models");
+const { Pagamento, Conteudo } = require("../../app/models");
 const configDoApp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
 
 // Pagamentos
@@ -11,6 +11,11 @@ exports.payments_create = async (req, res) => {
         const { transaction_amount, token , description, installments, payment_method_id, issuer_id, payer } = req.body;
         const { email, identification } = payer;
         const { type, number } = identification;
+        const { conteudoId } = req.body;
+
+        const conteudo = await Conteudo.findByPk(conteudoId);
+        if (!conteudo) return res.status(404).send({ message: "Conteúdo não encontrado" });
+
 
         const payment = await new Payment(configDoApp).create({
             body: { 
@@ -34,7 +39,8 @@ exports.payments_create = async (req, res) => {
             let pagamento = Pagamento.build({
                 valorPago: transaction_amount,
                 usuarioId: usuario.id,
-                mercadoPagoPaymentId: payment.id
+                mercadoPagoPaymentId: payment.id,
+                conteudoId
             });
             await pagamento.save();
 

@@ -4,21 +4,22 @@ import { Alert } from "@mui/material";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import { useEffect } from "react";
 import { useApp } from "../../data/hooks/useApp";
-import { MonetizationOn } from "@mui/icons-material";
+import { MonetizationOn, ThumbUp } from "@mui/icons-material";
 import { AppInput } from "../../ui/components/AppInput";
 
 await loadMercadoPago();
 
-export const CreatePayments = () => {
+export const CreatePayments = ({ conteudo }) => {
     const [iniciarPagamento, setIniciarPagamento] = useState(false);
     const [dadosDaCompra, setDadosDaCompra] = useState(false);
     const [tiposDeDocumento, setTiposDeDocumento] = useState([]);
     const [cartoesDeCredito, setCartoesDeCredito] = useState([]);
     const [cartoesDeDebito, setCartoesDeDebito] = useState([]);
-    const [pagamento, setPagamento] = useState(null);
+    const [pagamento, setPagamento] = useState(conteudo.pagamentos.length);
     const [mensagem, setMensagem] = useState(false);
     const { REACT_APP_NODE_URL, REACT_APP_MP_PUBLIC_KEY } = process.env;
     const { usuario } = useApp();
+    const { id } = conteudo;
 
     const navegaEntreEtapas = async () => {
         setDadosDaCompra(!dadosDaCompra);
@@ -46,7 +47,7 @@ export const CreatePayments = () => {
             ["identificationType", "Tipo de documento"],
             ["identificationNumber", "Número do documento"],
             ["cardholderEmail", "E-mail"],
-        ].map(([id, placeholder]) => ({ [id]: { id, placeholder } }));
+        ].map(([identification, placeholder]) => ({ [identification]: { id: identification + id, placeholder } }));
 
         formItens = Object.assign({}, ...formItens);
 
@@ -58,7 +59,7 @@ export const CreatePayments = () => {
             amount: "100.5",
             iframe: true,
             form: {
-                id: "form-checkout",
+                id: "form-checkout" + id,
                 ...formItens,
             },
             callbacks: {
@@ -113,17 +114,8 @@ export const CreatePayments = () => {
     }
 
     // Pagamentos
-    const proccessPaymentCreate = async ({
-        paymentMethodId: payment_method_id,
-        issuerId: issuer_id,
-        cardholderEmail: email,
-        amount,
-        token,
-        installments,
-        identificationNumber,
-        identificationType,
-    }) => {
-        const url = [REACT_APP_NODE_URL, "users", 1, "payments"].join("/");
+    const proccessPaymentCreate = async (card) => {
+        const url = [REACT_APP_NODE_URL, "users", usuario.id, "payments"].join("/");
           
         return await fetch(url, {
             method: "POST",
@@ -131,17 +123,18 @@ export const CreatePayments = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                token,
-                issuer_id,
-                payment_method_id,
-                transaction_amount: Number(amount),
-                installments: Number(installments),
-                description: "Descrição do produto",
+                conteudoId: conteudo.id,
+                token: card.token,
+                issuer_id: card.issuerId,
+                payment_method_id: card.paymentMethodId,
+                transaction_amount: Number(conteudo.valorDoConteudo) + Number(conteudo.valorDaMensagem),
+                installments: Number(card.installments),
+                description: conteudo.titulo,
                 payer: {
-                    email,
+                    email: card.cardholderEmail,
                     identification: {
-                        type: identificationType,
-                        number: identificationNumber,
+                        type: card.identificationType,
+                        number: card.identificationNumber,
                     },
                 },
             }),
@@ -194,30 +187,37 @@ export const CreatePayments = () => {
             onClose={() => setMensagem("")}
         />}
 
-        <h1 children="Pagamento" />
+        <div className="app-card" style={{ textAlign: "left", marginBottom: "10px" }}>
+            <p children={<b>{conteudo.titulo}</b>} />
+            <p children={conteudo.descricao} />
 
-        <div className="app-card">
-            {!pagamento && <MonetizationOn
-                onClick={() => setIniciarPagamento(!iniciarPagamento)}
-                className="card-icon"
-            />}
+            <div style={{ display: "flex", gap: "10px" }}>
+                {<ThumbUp
+                    className="card-icon"
+                />}
+                {!pagamento && <MonetizationOn
+                    onClick={() => setIniciarPagamento(!iniciarPagamento)}
+                    className="card-icon"
+                />}
+            </div>
+
 
             <div className="checkout">
-                {iniciarPagamento && <form id="form-checkout">
-                    <div id="cardNumber" className={["container", mostrarDadosDoCartao].join(" ")} />
+                {iniciarPagamento && <form id={"form-checkout" + id}>
+                    <div id={"cardNumber" + id} className={["container", mostrarDadosDoCartao].join(" ")} />
                     <div className="par-de-campos-pequenos">
-                        <div id="expirationDate" className={["container", mostrarDadosDoCartao].join(" ")} />
-                        <div id="securityCode" className={["container", mostrarDadosDoCartao].join(" ")} />
+                        <div id={"expirationDate" + id} className={["container", mostrarDadosDoCartao].join(" ")} />
+                        <div id={"securityCode" + id} className={["container", mostrarDadosDoCartao].join(" ")} />
                     </div>
-                    <AppInput id="cardholderName" className={mostrarDadosDoCartao} />
+                    <AppInput id={"cardholderName" + id} className={mostrarDadosDoCartao} />
 
-                    <select id="issuer" className={mostrarDadosDaCompra} />
-                    <select id="installments" className={mostrarDadosDaCompra} />
+                    <select id={"issuer" + id} className={mostrarDadosDaCompra} />
+                    <select id={"installments" + id} className={mostrarDadosDaCompra} />
                     <div className="par-de-campos-pequenos">
-                        <select id="identificationType" className={mostrarDadosDaCompra} />
-                        <AppInput id="identificationNumber" className={mostrarDadosDaCompra} />
+                        <select id={"identificationType" + id} className={mostrarDadosDaCompra} />
+                        <AppInput id={"identificationNumber" + id} className={mostrarDadosDaCompra} />
                     </div>
-                    <AppInput type="email" id="cardholderEmail" className={mostrarDadosDaCompra} />
+                    <AppInput type="email" id={"cardholderEmail" + id} className="hidden" value={usuario.email} />
 
                     <progress value="0" className="progress-bar" children="Carregando..." />
                     <div className="botoes-de-acao">
