@@ -1,7 +1,7 @@
 {
-  "name": "cv",
+  "name": "somos-fas",
   "version": "0.1.0",
-  "homepage": "http://Cristiano7988.github.io/cv/",
+  "homepage": "http://Cristiano7988.github.io/somos-fas/",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
