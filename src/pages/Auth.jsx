@@ -70,7 +70,7 @@ export const Auth = () => {
     }
 
     return usuario
-        ? <Navigate to="/perfil" /> 
+        ? <Navigate to="/conteudos" /> 
         : <>
             {mensagem && <Alert style={{ position: "fixed", top: 0, alignSelf: "center" }} variant="filled" severity="error" children={mensagem} />}
             <div className="app-card">

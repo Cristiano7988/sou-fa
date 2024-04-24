@@ -6,6 +6,7 @@ import { AppLayout } from "./data/AppLayout";
 import { Page } from "./pages/Page";
 import { CreateConteudos } from "./pages/conteudos/CreateConteudos";
 import { ListConteudos } from "./pages/conteudos/ListConteudos";
+import { Perfil } from "./pages/Perfil";
 
 const getUserData = () =>
     new Promise((resolve) => {
@@ -25,7 +26,7 @@ export const router = createBrowserRouter(
                 <Route element={<AuthLayout />}>
                     <Route path="/conteudos" element={<ListConteudos />} />
                     <Route path="/conteudos/create" element={<CreateConteudos />} />
-                    <Route path="/perfil" element={<Page />} />
+                    <Route path="/perfil" element={<Perfil />} />
                     <Route path="*" element={<ErrorPage />} />
                 </Route>
         </Route>

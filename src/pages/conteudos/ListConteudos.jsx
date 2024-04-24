@@ -21,6 +21,6 @@ export const ListConteudos = () => {
     return <div style={{ display: "flex", flexDirection: "column" }}>
         <Link to="create" children="Criar conteúdo" style={{ alignSelf: "end" }} />
 
-        {conteudos.map(conteudo => <CreatePayments key={conteudo.id} conteudo={conteudo} />)}
+        {conteudos.map(conteudo => <CreatePayments key={conteudo.id} conteudoInicial={conteudo} />)}
     </div>
 }

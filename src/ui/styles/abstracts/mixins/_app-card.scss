@@ -12,6 +12,39 @@
         min-width: 400px; // Apenas para desktop
     }
 
+    .container-do-conteudo {
+        position: relative;
+        .identificacao-do-usuario {
+            display: flex;
+            align-items: center;
+            gap: $halfSpaced;
+            position: absolute;
+            top: 0;
+            background-color: $mediumSecondary;
+            padding: $halfSpaced;
+            border-radius: $corner;
+            margin: $halfSpaced;
+            max-width: calc(100% -  (#{$spaced} * 2) );
+    
+            p {
+                width: 100%;
+                margin: unset;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        img {
+            max-width: 400px;
+            width: 100%;
+        }
+    }
+
+    .container-de-interacoes {
+        display: flex;
+        gap: $halfSpaced;
+    }
+
     .card-icon {
         cursor: pointer;
     }

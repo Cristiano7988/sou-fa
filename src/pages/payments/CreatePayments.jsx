@@ -4,21 +4,22 @@ import { Alert } from "@mui/material";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import { useEffect } from "react";
 import { useApp } from "../../data/hooks/useApp";
-import { MonetizationOn, ThumbUp } from "@mui/icons-material";
+import { AccountCircle, MonetizationOn, ThumbUp } from "@mui/icons-material";
 import { AppInput } from "../../ui/components/AppInput";
 
 await loadMercadoPago();
 
-export const CreatePayments = ({ conteudo }) => {
+export const CreatePayments = ({ conteudoInicial }) => {
+    const [conteudo, setConteudo] = useState(conteudoInicial);
     const [iniciarPagamento, setIniciarPagamento] = useState(false);
     const [dadosDaCompra, setDadosDaCompra] = useState(false);
     const [tiposDeDocumento, setTiposDeDocumento] = useState([]);
     const [cartoesDeCredito, setCartoesDeCredito] = useState([]);
     const [cartoesDeDebito, setCartoesDeDebito] = useState([]);
-    const [pagamento, setPagamento] = useState(conteudo.pagamentos.length);
     const [mensagem, setMensagem] = useState(false);
     const { REACT_APP_NODE_URL, REACT_APP_MP_PUBLIC_KEY } = process.env;
     const { usuario } = useApp();
+    const [pagamento, setPagamento] = useState(conteudo.pagamento || !conteudo.valorDoConteudo || (conteudo.usuarioId == usuario.id));
     const { id } = conteudo;
 
     const navegaEntreEtapas = async () => {
@@ -47,7 +48,7 @@ export const CreatePayments = ({ conteudo }) => {
             ["identificationType", "Tipo de documento"],
             ["identificationNumber", "Número do documento"],
             ["cardholderEmail", "E-mail"],
-        ].map(([identification, placeholder]) => ({ [identification]: { id: identification + id, placeholder } }));
+        ]?.map(([identification, placeholder]) => ({ [identification]: { id: identification + id, placeholder } }));
 
         formItens = Object.assign({}, ...formItens);
 
@@ -56,7 +57,7 @@ export const CreatePayments = ({ conteudo }) => {
         });
 
         const cardForm = mp.cardForm({
-            amount: "100.5",
+            amount: conteudo.valorDoConteudo,
             iframe: true,
             form: {
                 id: "form-checkout" + id,
@@ -84,7 +85,7 @@ export const CreatePayments = ({ conteudo }) => {
                     setMensagem(<div>
                         Dados inválidos:
                         <ul>
-                            {error.map((erro, key) => <li key={key} children={erro.message} />)}
+                            {error?.map((erro, key) => <li key={key} children={erro.message} />)}
                         </ul>
                     </div>);
                 }
@@ -127,7 +128,7 @@ export const CreatePayments = ({ conteudo }) => {
                 token: card.token,
                 issuer_id: card.issuerId,
                 payment_method_id: card.paymentMethodId,
-                transaction_amount: Number(conteudo.valorDoConteudo) + Number(conteudo.valorDaMensagem),
+                transaction_amount: Number(conteudo.valorDoConteudo),
                 installments: Number(card.installments),
                 description: conteudo.titulo,
                 payer: {
@@ -140,9 +141,25 @@ export const CreatePayments = ({ conteudo }) => {
             }),
         })
         .then(r => r.json())
-        .then(({ payment }) => {
-            setPagamento(payment);
+        .then(({ payment, pagamento }) => {
             setIniciarPagamento(false);
+            setPagamento(pagamento);
+
+            const url = [REACT_APP_NODE_URL, "conteudos", conteudo.id].join("/");
+            const query = `?paymentId=${payment.id}&pagamentoId=${pagamento.id}`;
+            fetch(url + query)
+                .then(r => r.json())
+                .then(({ conteudo }) => setConteudo({
+                    ...conteudo,
+                    pagamento
+                }))
+                .catch(error => {
+                    const message = /fetch/.test(error.message)
+                        ? "Nosso servidor está temporaramente indisponível."
+                        : error.message;
+    
+                    setMensagem(message);
+                })
             return true;
         })
         .catch(error => {
@@ -188,22 +205,30 @@ export const CreatePayments = ({ conteudo }) => {
         />}
 
         <div className="app-card" style={{ textAlign: "left", marginBottom: "10px" }}>
+            <div className="container-do-conteudo">
+                <div className="identificacao-do-usuario">
+                    <AccountCircle />
+                    <p children={conteudo.Usuario?.email} />
+                </div>
+                <img title={/bloqueado/.test(conteudo.url) ? "Para liberar efetue o pagamento." : conteudo.titulo} src={"/conteudos/" + conteudo.url} />
+            </div>
             <p children={<b>{conteudo.titulo}</b>} />
             <p children={conteudo.descricao} />
 
-            <div style={{ display: "flex", gap: "10px" }}>
-                {<ThumbUp
-                    className="card-icon"
-                />}
+            <div className="container-de-interacoes">
+
                 {!pagamento && <MonetizationOn
                     onClick={() => setIniciarPagamento(!iniciarPagamento)}
                     className="card-icon"
                 />}
             </div>
 
-
             <div className="checkout">
                 {iniciarPagamento && <form id={"form-checkout" + id}>
+                    <p>
+                        <b children="Valor: " />
+                        { conteudo.valorDoConteudo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }
+                    </p>
                     <div id={"cardNumber" + id} className={["container", mostrarDadosDoCartao].join(" ")} />
                     <div className="par-de-campos-pequenos">
                         <div id={"expirationDate" + id} className={["container", mostrarDadosDoCartao].join(" ")} />

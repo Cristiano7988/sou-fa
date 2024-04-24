@@ -266,6 +266,31 @@ input[type="checkbox"], input[type="radio"] {
     @media only screen and (min-width: 767px) {
       .app-container .app-card {
         min-width: 400px; } }
+    .app-container .app-card .container-do-conteudo {
+      position: relative; }
+      .app-container .app-card .container-do-conteudo .identificacao-do-usuario {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: absolute;
+        top: 0;
+        background-color: rgba(255, 255, 255, 0.75);
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px;
+        max-width: calc(100% -  (20px * 2) ); }
+        .app-container .app-card .container-do-conteudo .identificacao-do-usuario p {
+          width: 100%;
+          margin: unset;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; }
+      .app-container .app-card .container-do-conteudo img {
+        max-width: 400px;
+        width: 100%; }
+    .app-container .app-card .container-de-interacoes {
+      display: flex;
+      gap: 10px; }
     .app-container .app-card .card-icon {
       cursor: pointer; }
     .app-container .app-card .checkout {
