@@ -57,7 +57,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
         });
 
         const cardForm = mp.cardForm({
-            amount: conteudo.valorDoConteudo,
+            amount: "100.5", // Bugfix a ser revisado
             iframe: true,
             form: {
                 id: "form-checkout" + id,

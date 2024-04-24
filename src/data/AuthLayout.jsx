@@ -27,13 +27,13 @@ export const AuthLayout = () => {
                 } else {
                     setMensagem(response.message);
                     setUsuario(null);
-                    navigate("/login");
+                    navigate("/");
                 }
             })
             .catch(error => {
                 setMensagem(error.message ?? "Nosso servidor está temporaramente indisponível.");
                 setUsuario(null);
-                navigate("/login")
+                navigate("/")
             });
     }, []);
 
