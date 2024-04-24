@@ -3,7 +3,6 @@ import { ErrorPage } from "./pages/ErrorPage";
 import { Auth } from "./pages/Auth";
 import { AuthLayout } from "./data/AuthLayout";
 import { AppLayout } from "./data/AppLayout";
-import { Page } from "./pages/Page";
 import { CreateConteudos } from "./pages/conteudos/CreateConteudos";
 import { ListConteudos } from "./pages/conteudos/ListConteudos";
 import { Perfil } from "./pages/Perfil";
@@ -20,9 +19,8 @@ export const router = createBrowserRouter(
             element={<AppLayout />}
             loader={() => defer({ usuarioPromise: getUserData() })}
         >
-            <Route exact path="/" element={<Page />} />
             <Route exact path="/cadastro" element={<Auth />} />
-            <Route exact path="/login" element={<Auth />} />
+            <Route exact path="/" element={<Auth />} />
                 <Route element={<AuthLayout />}>
                     <Route path="/conteudos" element={<ListConteudos />} />
                     <Route path="/conteudos/create" element={<CreateConteudos />} />

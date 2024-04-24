@@ -7,8 +7,7 @@ export const NavBar = () => {
     const { logout, usuario } = useApp();
 
     const appName = process.env.REACT_APP_NAME ?? "Nome do App";
-    const login = location.pathname != "/login";
-    const cadastro = location.pathname != "/cadastro";
+    const cadastro = location.pathname == "/cadastro";
  
     const handleLeaving = event => event.target.closest(".show")?.classList.remove("show");
     const toggleMenu = event => event.target.closest(".app-pop-up-menu-trigger").classList.toggle("show");
@@ -19,11 +18,10 @@ export const NavBar = () => {
             <div className="app-nav-links">
                 <div>
                     <NavLink to="/" children={<b>{appName}</b>} />
-                    {usuario && <NavLink to="/conteudos" children="Conteúdos" />}
                 </div>
                 {!usuario && <div>
-                    {login && <NavLink to="/login" children="Login" />}
-                    {cadastro && <NavLink to="/cadastro" children="Cadastrar" />}
+                    {cadastro && <NavLink to="/" children="Login" />}
+                    {!cadastro && <NavLink to="/cadastro" children="Cadastrar" />}
                 </div>}
             </div>
             {usuario && <div className="app-pop-up-menu-trigger" onMouseLeave={handleLeaving}>

@@ -34,8 +34,8 @@ export const Auth = () => {
         if (senhaErrada) return true; 
 
         const nodeURL = process.env.REACT_APP_NODE_URL;
-        const url = title == "login"
-            ? [nodeURL, "auth", title].join("/")
+        const url = !title
+            ? [nodeURL, "auth", "login"].join("/")
             : [nodeURL, "usuario"].join("/");
 
         return await fetch(url, {
@@ -74,7 +74,7 @@ export const Auth = () => {
         : <>
             {mensagem && <Alert style={{ position: "fixed", top: 0, alignSelf: "center" }} variant="filled" severity="error" children={mensagem} />}
             <div className="app-card">
-                <h1 children={title} />
+                <h1 children={!title ? "Login" : "Cadastro"} />
 
                 <AppInput
                     placeholder="Email"
