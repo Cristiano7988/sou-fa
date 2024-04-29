@@ -242,7 +242,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
                         <select id={"identificationType" + id} className={mostrarDadosDaCompra} />
                         <AppInput id={"identificationNumber" + id} className={mostrarDadosDaCompra} />
                     </div>
-                    <AppInput type="email" id={"cardholderEmail" + id} className="hidden" value={usuario.email} />
+                    <input type="email" id={"cardholderEmail" + id} className="hidden" defaultValue={usuario.email} />
 
                     <progress value="0" className="progress-bar" children="Carregando..." />
                     <div className="botoes-de-acao">
