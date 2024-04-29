@@ -35,6 +35,7 @@ exports.list = async (req, res) => {
                 valorDaMensagem,
                 url: pagamento || !valorDoConteudo || conteudo.usuarioId == usuarioId ? url : "conteudo-bloqueado.svg",
                 pagamento,
+                usuarioId: Usuario.id,
                 Usuario
             }
         }));
