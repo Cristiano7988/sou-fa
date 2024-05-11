@@ -71,9 +71,9 @@ exports.get = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         const { usuario } = req;
-        const { titulo, descricao, file, valorDoConteudo, valorDaMensagem } = req.body;
+        const { titulo, descricao, midia, valorDoConteudo, valorDaMensagem } = req.body;
 
-        let conteudo = Conteudo.build({ titulo, descricao, url: file, valorDoConteudo, valorDaMensagem, usuarioId: usuario.id });
+        let conteudo = Conteudo.build({ titulo, descricao, url: midia, valorDoConteudo, valorDaMensagem, usuarioId: usuario.id });
         await conteudo.save();
         
         return res.send({ conteudo });

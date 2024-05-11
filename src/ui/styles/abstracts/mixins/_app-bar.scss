@@ -47,6 +47,8 @@
                 color: $primary;
                 border: $borderSize solid $primary;
                 border-radius: $corner;
+
+                .app-button { @include app-button }
             }
 
             &.show {

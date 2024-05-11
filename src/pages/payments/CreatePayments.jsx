@@ -1,10 +1,9 @@
 import { AppButton } from "../../ui/components/AppButton";
 import { useState } from "react";
-import { Alert } from "@mui/material";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import { useEffect } from "react";
 import { useApp } from "../../data/hooks/useApp";
-import { AccountCircle, MonetizationOn, ThumbUp } from "@mui/icons-material";
+import { AccountCircle, MonetizationOn } from "@mui/icons-material";
 import { AppInput } from "../../ui/components/AppInput";
 
 await loadMercadoPago();
@@ -16,9 +15,8 @@ export const CreatePayments = ({ conteudoInicial }) => {
     const [tiposDeDocumento, setTiposDeDocumento] = useState([]);
     const [cartoesDeCredito, setCartoesDeCredito] = useState([]);
     const [cartoesDeDebito, setCartoesDeDebito] = useState([]);
-    const [mensagem, setMensagem] = useState(false);
     const { REACT_APP_NODE_URL, REACT_APP_MP_PUBLIC_KEY } = process.env;
-    const { usuario } = useApp();
+    const { usuario, atualizaMensagem } = useApp();
     const [pagamento, setPagamento] = useState(conteudo.pagamento || !conteudo.valorDoConteudo || (conteudo.usuarioId == usuario.id));
     const { id } = conteudo;
 
@@ -28,20 +26,15 @@ export const CreatePayments = ({ conteudoInicial }) => {
     }
 
     useEffect(() => {
-        if (!cartoesDeCredito || !cartoesDeDebito) return;
+        if (!iniciarPagamento) return;
 
         paymentMethods();
         identificationTypes();
-    }, []);
-
-    useEffect(() => {
-        if (!iniciarPagamento) return;
 
         let formItens = [
             ["cardNumber", "Número do cartão"],
             ["expirationDate", "MM/AA"],
             ["securityCode", "Código de segurança"],
-            ["cardholderName", "Titular do cartão"],
             ["cardholderName", "Titular do cartão"],
             ["issuer", "Banco emissor"],
             ["installments", "Parcelas"],
@@ -57,7 +50,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
         });
 
         const cardForm = mp.cardForm({
-            amount: "100.5", // Bugfix a ser revisado
+            amount: String(conteudo.valorDoConteudo),
             iframe: true,
             form: {
                 id: "form-checkout" + id,
@@ -82,7 +75,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
                     return () => progressBar.setAttribute("value", "0");
                 },
                 onError: (error) => {
-                    setMensagem(<div>
+                    atualizaMensagem(<div>
                         Dados inválidos:
                         <ul>
                             {error?.map((erro, key) => <li key={key} children={erro.message} />)}
@@ -98,6 +91,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
     // Meios de Pagamento
     const paymentMethods = async () => {
         const url = [REACT_APP_NODE_URL, "payment_methods"].join("/");
+
         return await fetch(url)
             .then(r => r.json())
             .then(({ meiosDePagamento }) => {
@@ -110,6 +104,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
             })
             .catch(e => {
                 console.log(e);
+                atualizaMensagem(e.message ?? "Não foi possível obter os meios de pagamento");
                 return true;
             })
     }
@@ -158,7 +153,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
                         ? "Nosso servidor está temporaramente indisponível."
                         : error.message;
     
-                    setMensagem(message);
+                    atualizaMensagem(message);
                 })
             return true;
         })
@@ -167,7 +162,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
                 ? "Nosso servidor está temporaramente indisponível."
                 : error.message;
 
-            setMensagem(message);
+            atualizaMensagem(message);
             return true;
         });
     }
@@ -187,7 +182,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
                     ? "Nosso servidor está temporaramente indisponível."
                     : error.message;
 
-                setMensagem(message);
+                atualizaMensagem(message);
                 return true;
             });
     }
@@ -196,14 +191,6 @@ export const CreatePayments = ({ conteudoInicial }) => {
     const mostrarDadosDaCompra = !dadosDaCompra ? "hidden" : "";
 
     return <div>
-        {mensagem && <Alert
-            className="mensagem-de-erro"
-            variant="filled"
-            severity="error"
-            children={mensagem}
-            onClose={() => setMensagem("")}
-        />}
-
         <div className="app-card" style={{ textAlign: "left", marginBottom: "10px" }}>
             <div className="container-do-conteudo">
                 <div className="identificacao-do-usuario">

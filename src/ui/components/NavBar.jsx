@@ -1,6 +1,7 @@
 import { useApp } from "../../data/hooks/useApp";
 import { AccountCircle } from "@mui/icons-material";
 import { NavLink, useLocation } from "react-router-dom";
+import { AppButton } from "./AppButton";
 
 export const NavBar = () => {
     const location = useLocation();
@@ -11,13 +12,13 @@ export const NavBar = () => {
  
     const handleLeaving = event => event.target.closest(".show")?.classList.remove("show");
     const toggleMenu = event => event.target.closest(".app-pop-up-menu-trigger").classList.toggle("show");
-    const handleClick = () => logout();
+    const handleClick = async () => await logout();
 
     return <div className="app-bar">
         <div className="app-toolbar">
             <div className="app-nav-links">
                 <div>
-                    <NavLink to="/" children={<b>{appName}</b>} />
+                    <NavLink to="/conteudos" state={false} children={<b>{appName}</b>} />
                 </div>
                 {!usuario && <div>
                     {cadastro && <NavLink to="/" children="Login" />}
@@ -28,7 +29,7 @@ export const NavBar = () => {
                 <AccountCircle onClick={toggleMenu} />
                 <div className="app-pop-up-menu">
                     <NavLink to="/perfil" children="Perfil"/>
-                    <NavLink onClick={handleClick} children="Log out"/>
+                    <AppButton asyncEvent={handleClick} children="Log out"/>
                 </div>
             </div>}
         </div>

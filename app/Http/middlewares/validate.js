@@ -10,7 +10,7 @@ const accessToken = async (req, res, next) => {
         if (!accessToken) return res.status(401).send({ message: "Este usuário está deslogado." });
 
         const tokenValido = await bcrypt.compare(usuario.accessToken, accessToken);
-        if (!tokenValido) return res.status(401).send({ message: "Token inválido." });
+        if (!tokenValido) return res.status(401).send({ message: "Usuário deslogado." });
 
         const { today } = await getExpiration();
 

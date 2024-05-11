@@ -21,12 +21,12 @@ export const router = createBrowserRouter(
         >
             <Route exact path="/cadastro" element={<Auth />} />
             <Route exact path="/" element={<Auth />} />
-                <Route element={<AuthLayout />}>
-                    <Route path="/conteudos" element={<ListConteudos />} />
-                    <Route path="/conteudos/create" element={<CreateConteudos />} />
-                    <Route path="/perfil" element={<Perfil />} />
-                    <Route path="*" element={<ErrorPage />} />
-                </Route>
+            <Route element={<AuthLayout />}>
+                <Route path="/conteudos" element={<ListConteudos />} />
+                <Route path="/conteudos/create" element={<CreateConteudos />} />
+                <Route path="/perfil" element={<Perfil />} />
+                <Route path="*" element={<ErrorPage />} />
+            </Route>
         </Route>
     )
 );

@@ -1,37 +1,37 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useApp } from "../data/hooks/useApp";
-import { Alert } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppButton } from "../ui/components/AppButton";
 import { AppInput } from "../ui/components/AppInput";
+import { possui } from "../data/helpers/possui";
 
 export const Auth = () => {
-    const { usuario, setUsuario } = useApp();
-    const [mensagem, setMensagem] = useState(false);
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [senhaErrada, setSenhaErrada] = useState("");
-    const [emailErrado, setEmailErrado] = useState("");
+    const { usuario, setUsuario, atualizaMensagem } = useApp();
+    const [data, setData] = useState({});
     const location = useLocation();
+    const navigate = useNavigate();
     const title = location.pathname.replace("/", "");
 
-    const atualizaEmail = (e) => {
-        setEmailErrado("");
-        setEmail(e.target.value);
-    }
+    useEffect(() => {
+        if (usuario) return navigate("/conteudos", { state: { mensagem: "Usuário logado", sucesso: true } }); 
+        atualizaMensagem(location.state?.mensagem ?? "", location.state?.sucesso ?? false);
+    }, [usuario]);
 
-    const atualizaSenha = (e) => {
-        setSenhaErrada("");
-        setSenha(e.target.value);
+    const updateData = (item) => {
+        setData({
+            ...data,
+            ...item
+        });
     }
 
     const concedeAcesso = async () => {
-        if (!/@/.test(email)) setEmailErrado("Email inválido.");
-        if (email.length <= 2) setEmailErrado("Email muito curto.");
-        if (senha.length <= 7) setSenhaErrada("A senha deve ter 8 dígitos.");
+        if (possui.erros(data)) return true;
 
-        if (emailErrado) return true;
-        if (senhaErrada) return true; 
+        const camposAusentes = possui.camposAusentes(data, ["email", "senha"]);
+        if (camposAusentes) {
+            atualizaMensagem(camposAusentes);
+            return true;
+        }
 
         const nodeURL = process.env.REACT_APP_NODE_URL;
         const url = !title
@@ -41,10 +41,7 @@ export const Auth = () => {
         return await fetch(url, {
             method: "POST",
             mode: "cors",
-            body: JSON.stringify({
-                email,
-                senha
-            }),
+            body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -54,8 +51,7 @@ export const Auth = () => {
             if (response.usuario) {
                 setUsuario(response.usuario);
             } else {
-                setMensagem(response.message);
-                setTimeout(() => setMensagem(false), 30000);
+                atualizaMensagem(response.message);
             }
             return true;
         })
@@ -63,40 +59,31 @@ export const Auth = () => {
             const message = /fetch/.test(error.message)
                 ? "Nosso servidor está temporaramente indisponível."
                 : error.message;
-            setMensagem(message);
-            setTimeout(() => setMensagem(false), 30000);
+            atualizaMensagem(message);
             return true;
         });
     }
 
-    return usuario
-        ? <Navigate to="/conteudos" /> 
-        : <>
-            {mensagem && <Alert style={{ position: "fixed", top: 0, alignSelf: "center" }} variant="filled" severity="error" children={mensagem} />}
-            <div className="app-card">
-                <h1 children={!title ? "Login" : "Cadastro"} />
+    return <div className="app-card">
+        <h1 children={!title ? "Login" : "Cadastro"} />
 
-                <AppInput
-                    placeholder="Email"
-                    required
-                    errorMessage={emailErrado}
-                    handleChange={atualizaEmail}
-                    value={email}
-                />
+        <AppInput
+            type="email"
+            placeholder="Email"
+            required
+            updateData={updateData}
+        />
 
-                <AppInput 
-                    type="password"
-                    placeholder="Senha"
-                    required
-                    errorMessage={senhaErrada}
-                    handleChange={atualizaSenha}
-                    value={senha}
-                />
+        <AppInput 
+            type="password"
+            placeholder="Senha"
+            required
+            updateData={updateData}
+        />
 
-                {(email && senha) && <AppButton
-                    children="Entrar"
-                    asyncEvent={concedeAcesso}
-                />}
-            </div>
-        </>
+        {data && <AppButton
+            children="Entrar"
+            asyncEvent={concedeAcesso}
+        />}
+    </div>
 };

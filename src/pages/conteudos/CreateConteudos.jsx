@@ -1,42 +1,59 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AppInput } from "../../ui/components/AppInput";
 import { AppButton } from "../../ui/components/AppButton";
 import { useApp } from "../../data/hooks/useApp";
+import { useNavigate } from "react-router-dom";
+import { possui } from "../../data/helpers/possui";
 
 export const CreateConteudos = () => {
+    const { usuario, atualizaMensagem } = useApp();
+    const [data, setData] = useState({});
+
     const { REACT_APP_NODE_URL } = process.env;
-    const { usuario } = useApp();
+    const url = [REACT_APP_NODE_URL, "users", usuario.id, "conteudos"].join("/");
+    const navigate = useNavigate();
 
-    const [titulo, setTitulo] = useState("");
-    const [descricao, setDescricao] = useState("");
-    const [file, setFile] = useState("");
-    const [fileValue, setFileValue] = useState("");
-    const [valorDoConteudo, setValorDoConteudo] = useState("");
-    const [valorDaMensagem, setValorDaMensagem] = useState("");
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+          event.preventDefault();
+          event.returnValue = '';
+          return false;
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
-    const changeTitulo = (e) => setTitulo(e.target.value);
-    const changeDescricao = (e) => setDescricao(e.target.value);
-    const changeFile = (e) => {
-        setFileValue(e.target.value);
-        setFile(e.target.files[0]);
-    };
-    const changeValorDoConteudo = (e) => setValorDoConteudo(e.target.value);
-    const changeValorDaMensagem = (e) => setValorDaMensagem(e.target.value);
+    const updateData = (item) => {
+        setData({
+            ...data,
+            ...item
+        });
+    }
 
-    const salvarConteudo = async () => {
+    const salvarConteudo = async (e) => {
+        if (possui.erros(data)) return true;
+
+        const camposAusentes = possui.camposAusentes(data, ["titulo", "descricao", "midia", "valorDoConteudo"])
+        if (camposAusentes) {
+            atualizaMensagem(camposAusentes);
+            return true;
+        }
+
         const formData = new FormData();
-        formData.append("titulo", titulo);
-        formData.append("descricao", descricao);
-        formData.append("file", file);
-        formData.append("valorDoConteudo", valorDoConteudo);
-        formData.append("valorDaMensagem", valorDaMensagem);
+        Object.entries(data).map(([chave, valor]) => formData.append(chave, valor)); 
 
-        return await fetch([REACT_APP_NODE_URL, "users", usuario.id, "conteudos"].join("/"), {
+        return await fetch(url, {
             method: "POST",
             body: formData
         })
         .then(r => r.json())
-        .catch(console.log)
+        .then(() => navigate("/conteudos", { state: { mensagem: "Conteúdo Criado", sucesso: true }}))
+        .catch(e => {
+            atualizaMensagem(e.message);
+            return true;
+        })
     }
 
     return <div>
@@ -44,37 +61,30 @@ export const CreateConteudos = () => {
 
         <div className="app-card">
             <AppInput
+                required
                 placeholder="Título"
-                value={titulo}
-                handleChange={changeTitulo}
+                updateData={updateData}
             />
 
             <AppInput
+                required
                 placeholder="Descrição"
-                value={descricao}
-                handleChange={changeDescricao}
+                updateData={updateData}
             />
 
             <AppInput
+                required
+                placeholder="Mídia"
                 type="file"
-                value={fileValue}
-                handleChange={changeFile}
+                updateData={updateData}
             />
 
             <AppInput
+                required
                 type="number"
                 step="0.1"
                 placeholder="Valor do conteúdo"
-                value={valorDoConteudo}
-                handleChange={changeValorDoConteudo}
-            />
-
-            <AppInput
-                type="number"
-                step="0.1"
-                placeholder="Valor de Mensagem"
-                value={valorDaMensagem}
-                handleChange={changeValorDaMensagem}
+                updateData={updateData}
             />
 
             <AppButton

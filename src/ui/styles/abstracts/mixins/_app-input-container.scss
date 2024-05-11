@@ -5,10 +5,16 @@
 
     label {
         position: absolute;
-        top: calc((25% + #{$halfSpaced}) / 2);
-        left: $halfSpaced;
+        top: $borderSize;
+        left: $borderSize;
+        display: flex;
+        align-items: center;
         color: $mediumPrimary;
-        background: $secondary;
+        background: $lighterSecondary;
+        width: calc(100% - (#{$halfSpaced} * 2) - (#{$borderSize} * 2) );
+        border-radius: $corner;
+        padding: $halfSpaced;
+        text-align: left;
         transition: top, font-size, color, padding;
         transition-duration: $duration;
         cursor: text;
@@ -48,9 +54,12 @@
     &.focused {
         label {
             padding: 0 5px;
-            top: calc(-25% / 2);
+            top: -10px;
+            left: $halfSpaced;
             font-size: small;
             color: $primary;
+            width: fit-content;
+            height: fit-content;
         }
     }
 

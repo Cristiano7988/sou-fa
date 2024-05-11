@@ -51,7 +51,7 @@ exports.destroy = async (req, res) => {
         usuario.accessToken = null;
         await usuario.save();
 
-        return res.send({ usuario });
+        return res.send({ message: "Usuário deslogado" });
     } catch (error) {
         return res.status(500).send({ message: error.message });
     }

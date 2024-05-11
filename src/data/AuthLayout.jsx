@@ -4,14 +4,15 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const AuthLayout = () => {
-    const { usuario, setUsuario } = useApp();
-    const [carreando, setCarregando] = useState(true);
-    const [mensagem, setMensagem] = useState(false);
+    const { usuario, setUsuario, atualizaMensagem } = useApp();
+    const [carregando, setCarregando] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!usuario) return navigate("/");
         const nodeURL = process.env.REACT_APP_NODE_URL;
         const url = [nodeURL, "auth", "refresh"].join("/");
+
         fetch(url, {
             method: "POST",
             body: JSON.stringify(usuario),
@@ -21,23 +22,17 @@ export const AuthLayout = () => {
         })
             .then(r => r.json())
             .then(response => {
-                if (response.usuario) {
-                    setUsuario(response.usuario);
-                    setCarregando(false);
-                } else {
-                    setMensagem(response.message);
-                    setUsuario(null);
-                    navigate("/");
-                }
+                setUsuario(response.usuario);
+                setCarregando(false);
             })
             .catch(error => {
-                setMensagem(error.message ?? "Nosso servidor está temporaramente indisponível.");
                 setUsuario(null);
-                navigate("/")
+                const state = { mensagem: error.message ?? "Nosso servidor está temporaramente indisponível." };
+                navigate("/", { state });
             });
     }, []);
 
-    return carreando
+    return carregando
         ? <CircularProgress />
         : <Outlet />
 };

@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
         
         const filename = `${novoNomeArquivo}.${extensaoArquivo}`;
 
-        req.body.file = filename;
+        req.body.midia = filename;
 
         // Indica o novo nome do arquivo:
         cb(null, filename);
@@ -53,7 +53,7 @@ module.exports = (app) => {
         router.mergeParams = true;
         router.use([validate.userId]);
         
-        router.post("/", [upload.single('file')], conteudoController.create);
+        router.post("/", [upload.single('midia')], conteudoController.create);
     });
 
     // Meios de pagamento

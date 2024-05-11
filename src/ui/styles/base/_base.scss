@@ -1,2 +1,10 @@
 .app-bar { @include app-bar }
+div.mensagem {
+    position: fixed;
+    top: 0;
+    align-self: center;
+    z-index: 1;
+    padding: $halfSpaced;
+    width: calc(100% - (#{$halfSpaced} * 2));
+}
 .app-container {  @include app-container }
