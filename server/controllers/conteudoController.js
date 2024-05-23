@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const { Conteudo, Pagamento, Usuario } = require("../../app/models");
 const { Payment, MercadoPagoConfig } = require("mercadopago");
+const { makeItBlur } = require("../../app/helpers");
 const [nodePath, serverPath, env_file = ".env.local"] = process.argv;
 require("dotenv").config({ path: env_file });
 const configDoApp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
@@ -26,6 +27,7 @@ exports.list = async (req, res) => {
             });
 
             const { id, titulo, descricao, url, valorDoConteudo, valorDaMensagem, Usuario } = conteudo;
+            const liberado = pagamento || !valorDoConteudo || conteudo.usuarioId == usuarioId;
 
             return await {
                 id,
@@ -33,8 +35,9 @@ exports.list = async (req, res) => {
                 descricao,
                 valorDoConteudo,
                 valorDaMensagem,
-                url: pagamento || !valorDoConteudo || conteudo.usuarioId == usuarioId ? url : "conteudo-bloqueado.svg",
+                url: liberado ? url : await makeItBlur(url),
                 pagamento,
+                liberado,
                 usuarioId: Usuario.id,
                 Usuario
             }

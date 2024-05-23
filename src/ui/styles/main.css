@@ -299,8 +299,8 @@ div.mensagem {
           overflow: hidden;
           text-overflow: ellipsis; }
       .app-container .app-card .container-do-conteudo img {
-        max-width: 400px;
-        width: 100%; }
+        max-width: 100%;
+        max-height: 80vh; }
     .app-container .app-card .container-de-interacoes {
       display: flex;
       gap: 10px; }

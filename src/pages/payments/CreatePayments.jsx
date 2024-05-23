@@ -197,7 +197,10 @@ export const CreatePayments = ({ conteudoInicial }) => {
                     <AccountCircle />
                     <p children={conteudo.Usuario?.email} />
                 </div>
-                <img title={/bloqueado/.test(conteudo.url) ? "Para liberar efetue o pagamento." : conteudo.titulo} src={"/conteudos/" + conteudo.url} />
+                <img
+                    title={conteudo.liberado ? conteudo.titulo : "Para liberar efetue o pagamento."}
+                    src={conteudo.liberado ? "/conteudos/" + conteudo.url : conteudo.url}
+                />
             </div>
             <p children={<b>{conteudo.titulo}</b>} />
             <p children={conteudo.descricao} />
