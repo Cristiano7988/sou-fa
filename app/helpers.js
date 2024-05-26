@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const strToBase64 = (str) => Buffer.from(str).toString("base64");
 
-const urlToBase64 = (url) => fetch([process.env.PUBLIC_URL, "conteudos", url].join("/"))
+const urlToBase64 = (url) => fetch([process.env.PUBLIC_URL, url].join("/"))
     .then((res) => res.arrayBuffer())
     .then((res) => strToBase64(res))
     .catch(console.log);
@@ -36,7 +36,7 @@ exports.getExpiration = () => {
 }
 
 exports.makeItBlur = async (url, largura, altura) => {
-    const base64str = await urlToBase64(url);
+    const base64str = await urlToBase64("conteudos/imagens/" + url);
 
     const deviation = largura + altura;
     const casasDecimais = String(deviation).length;
@@ -63,9 +63,9 @@ exports.makeItBlur = async (url, largura, altura) => {
 }
 
 exports.addWaterMark = async (url, largura, altura) => {
-    const imagem = await urlToBase64(url);
-    const marcaDaAgua = await urlToBase64("marcaDaAgua.png");
-    const marcaDaAguaTransparente = await urlToBase64("marcaDaAguaTransparente.png");
+    const imagem = await urlToBase64("conteudos/imagens/" + url);
+    const marcaDaAgua = await urlToBase64("imagens/marcaDaAgua.png");
+    const marcaDaAguaTransparente = await urlToBase64("imagens/marcaDaAguaTransparente.png");
 
     const larguraDaMarca = "90px";
     const alturaDaMarca = "17px";

@@ -7,7 +7,7 @@ const conteudoController = require("./controllers/conteudoController");
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/conteudos/')
+        cb(null, 'public/conteudos/imagens/')
     },
     filename: function (req, file, cb) {
         // Extração da extensão do arquivo original:
