@@ -10,10 +10,12 @@ export const ListConteudos = () => {
     const { REACT_APP_NODE_URL } = process.env;
     const url = [REACT_APP_NODE_URL, "conteudos"].join("/");
     const navigate = useNavigate();
-    const queries = "?usuarioId=" + usuario.id;
+    
+    if (!usuario) navigate("/");
+    
+    const queries = "?usuarioId=" + usuario?.id;
     const location = useLocation();
     
-    if (!usuario) navigate("/")
 
     useEffect(() => {
         atualizaMensagem(location.state?.mensagem, location.state?.sucesso);
@@ -27,6 +29,6 @@ export const ListConteudos = () => {
     return <div style={{ display: "flex", flexDirection: "column" }}>
         <Link to="create" children="Criar conteúdo" style={{ alignSelf: "end" }} />
 
-        {conteudos.map(conteudo => <CreatePayments key={conteudo.id} conteudoInicial={conteudo} />)}
+        {conteudos?.map(conteudo => <CreatePayments key={conteudo.id} conteudoInicial={conteudo} />)}
     </div>
 }

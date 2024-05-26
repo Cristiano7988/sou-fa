@@ -13,17 +13,6 @@ export const CreateConteudos = () => {
     const url = [REACT_APP_NODE_URL, "users", usuario.id, "conteudos"].join("/");
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const handleBeforeUnload = (event) => {
-          event.preventDefault();
-          event.returnValue = '';
-          return false;
-        };
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
 
     const updateData = (item) => {
         setData({
