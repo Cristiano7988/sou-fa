@@ -42,7 +42,7 @@ export const AppInput = ({ type = "text", placeholder, updateData = false, requi
         const { width, height } = e.target;
 
         updateData({ 
-            lagura: width,
+            largura: width,
             altura: height
         });
     }
