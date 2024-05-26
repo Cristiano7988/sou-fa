@@ -19,6 +19,12 @@ module.exports = {
             url: {
                 type: Sequelize.STRING,
             },
+            largura: {
+                type: Sequelize.INTEGER,
+            },
+            altura: {
+                type: Sequelize.INTEGER,
+            },
             valorDoConteudo: {
                 type: Sequelize.FLOAT,
                 allowNull: true,

@@ -199,7 +199,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
                 </div>
                 <img
                     title={conteudo.liberado ? conteudo.titulo : "Para liberar efetue o pagamento."}
-                    src={conteudo.liberado ? "/conteudos/" + conteudo.url : conteudo.url}
+                    src={conteudo.url}
                 />
             </div>
             <p children={<b>{conteudo.titulo}</b>} />

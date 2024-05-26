@@ -383,6 +383,8 @@ div.mensagem {
         transition: top, font-size, color, padding;
         transition-duration: 0.25s;
         cursor: text; }
+      .app-container .app-card .app-input-container img {
+        display: none; }
       .app-container .app-card .app-input-container .app-input {
         width: 100%;
         text-align: left;

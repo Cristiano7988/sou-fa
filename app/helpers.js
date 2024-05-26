@@ -2,6 +2,14 @@ const [nodePath, serverPath, env_file = ".env.local"] = process.argv;
 require("dotenv").config({ path: env_file });
 const bcrypt = require("bcrypt");
 
+const strToBase64 = (str) => Buffer.from(str).toString("base64");
+
+const urlToBase64 = (url) => fetch([process.env.PUBLIC_URL, "conteudos", url].join("/"))
+    .then((res) => res.arrayBuffer())
+    .then((res) => strToBase64(res))
+    .catch(console.log);
+
+
 exports.generateAccessToken = async () => {
     let characters = "abcdefghijklmnopqrstuvwxyvABCDEFGHIJKLMNOPQRSTUVWXYV0123456789,.;~][!@#$%¨&*()_+{}^><-".split("");
     let rawAccessToken = "";
@@ -27,34 +35,102 @@ exports.getExpiration = () => {
     return { today, expiresAt };
 }
 
-exports.makeItBlur = async (url) => {        
-    const base64str = await fetch(
-        `${process.env.PUBLIC_URL}/conteudos/${url}`
-    ).then(async (res) =>
-        Buffer.from(await res.arrayBuffer()).toString('base64')
-    );
-  
+exports.makeItBlur = async (url, largura, altura) => {
+    const base64str = await urlToBase64(url);
+
+    const deviation = largura + altura;
+    const casasDecimais = String(deviation).length;
+    const stdDeviation = deviation / casasDecimais / 10000;
+
     const blurSvg = `
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'>
-            <filter id='b' color-interpolation-filters='sRGB'>
-                <feGaussianBlur stdDeviation='.2' />
+        <svg xmlns='http://www.w3.org/2000/svg' width='${largura}' height='${altura}' viewBox='0 0 ${largura} ${altura}'>
+            <filter id='imageWithBlur' color-interpolation-filters='sRGB'>
+                <feGaussianBlur stdDeviation='${stdDeviation}' />
             </filter>
   
             <image
-                filter='url(#b)'
+                filter='url(#imageWithBlur)'
                 x='0'
                 y='0'
-                height='100%'
-                width='100%'  
+                width='${largura}'
+                height='${altura}'
                 href='data:image/avif;base64,${base64str}'
             />
         </svg>
     `;
   
-    const toBase64 = (str) =>
-        typeof window === 'undefined'
-            ? Buffer.from(str).toString('base64')
-            : window.btoa(str);
+    return `data:image/svg+xml;base64,${strToBase64(blurSvg)}`;
+}
+
+exports.addWaterMark = async (url, largura, altura) => {
+    const imagem = await urlToBase64(url);
+    const marcaDaAgua = await urlToBase64("marcaDaAgua.png");
+    const marcaDaAguaTransparente = await urlToBase64("marcaDaAguaTransparente.png");
+
+    const larguraDaMarca = "90px";
+    const alturaDaMarca = "17px";
+    const larguraDaMarcaTransparente = "75px";
+    const alturaDaMarcaTransparente = "13px";
+    const gap = "10px";
   
-    return `data:image/svg+xml;base64,${toBase64(blurSvg)}`;
+    const imagemMarcada = `
+        <svg xmlns='http://www.w3.org/2000/svg' width='${largura}' height='${altura}' viewBox='0 0 ${largura} ${altura}' >
+            <defs>
+                <filter
+                    xmlns:xlink='http://www.w3.org/1999/xlink'
+                    id='imageWithWaterMarks'
+                    color-interpolation-filters='sRGB'
+                >
+                    <feImage
+                        result='first mark'
+                        x='calc(100% - ${larguraDaMarca} - ${gap})'
+                        y='calc(100% - ${alturaDaMarca} - ${gap})'
+                        width='${larguraDaMarca}'
+                        height='${alturaDaMarca}'
+                        xlink:href='data:image/avif;base64,${marcaDaAgua}'
+                    />
+                    <feImage
+                        result='second mark'
+                        x='${gap}'
+                        y='${gap}'
+                        width='${larguraDaMarcaTransparente}'
+                        height='${alturaDaMarcaTransparente}'
+                        xlink:href='data:image/avif;base64,${marcaDaAguaTransparente}'
+                    />
+                    <feImage
+                        result='third mark'
+                        x='calc(50% - (${larguraDaMarca} / 2))'
+                        y='calc(50% - (${alturaDaMarca} / 2))'
+                        width='${larguraDaMarcaTransparente}'
+                        height='${alturaDaMarcaTransparente}'
+                        xlink:href='data:image/avif;base64,${marcaDaAguaTransparente}'
+                    />
+                    <feBlend
+                        in='first mark'
+                        in2='second mark'
+                        result='both marks'
+                    />
+                    <feBlend
+                        in='both marks'
+                        in2='third mark'
+                        result='marks'
+                    />
+                    <feBlend
+                        in='marks'
+                        in2='SourceGraphic'
+                    />
+                </filter>
+            </defs>
+            <image
+                filter='url(#imageWithWaterMarks)'
+                x='0'
+                y='0'
+                width='${largura}'
+                height='${altura}'
+                href='data:image/avif;base64,${imagem}'
+            />
+        </svg>
+    `;
+  
+    return `data:image/svg+xml;base64,${strToBase64(imagemMarcada)}`;
 }

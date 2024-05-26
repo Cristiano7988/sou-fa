@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         titulo: DataTypes.STRING,
         descricao: DataTypes.STRING,
         url: DataTypes.STRING,
+        largura: DataTypes.INTEGER,
+        altura: DataTypes.INTEGER,
         valorDoConteudo: DataTypes.FLOAT,
         valorDaMensagem: DataTypes.FLOAT,
         usuarioId: DataTypes.INTEGER

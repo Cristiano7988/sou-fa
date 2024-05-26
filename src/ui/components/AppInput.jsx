@@ -9,6 +9,7 @@ export const AppInput = ({ type = "text", placeholder, updateData = false, requi
 
     const [errorMessage, setErrorMessage] = useState("");
     const [focus, setFocus] = useState(!!value);
+    const [image, setImage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
 
     const validaCampo = async (value) => {
@@ -25,6 +26,8 @@ export const AppInput = ({ type = "text", placeholder, updateData = false, requi
         const data = type == "file" ? files[0] : value;
 
         setValue(value);
+        
+        if (type == "file") setImage(URL.createObjectURL(data));
 
         if (!updateData) return;
 
@@ -35,6 +38,14 @@ export const AppInput = ({ type = "text", placeholder, updateData = false, requi
         });
     }
 
+    const handleImage = (e) => {
+        const { width, height } = e.target;
+
+        updateData({ 
+            lagura: width,
+            altura: height
+        });
+    }
 
     const handleFocus = (e) => {
         if (e.target.closest(".app-password-visibility")) return;
@@ -62,6 +73,8 @@ export const AppInput = ({ type = "text", placeholder, updateData = false, requi
         onFocus={handleFocus}
     >
         {placeholder && <label children={[placeholder, required ? "*" : ""].join(" ")} />}
+
+        {image && <img src={image} onLoad={handleImage} />}
 
         <div className="app-input">
             <input id={id ? id : item} type={showPassword ? "text" : type} value={value} onChange={handleChange} {...step} />

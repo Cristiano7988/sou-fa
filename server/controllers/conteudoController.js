@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const { Conteudo, Pagamento, Usuario } = require("../../app/models");
 const { Payment, MercadoPagoConfig } = require("mercadopago");
-const { makeItBlur } = require("../../app/helpers");
+const { makeItBlur, addWaterMark } = require("../../app/helpers");
 const [nodePath, serverPath, env_file = ".env.local"] = process.argv;
 require("dotenv").config({ path: env_file });
 const configDoApp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
@@ -26,7 +26,7 @@ exports.list = async (req, res) => {
                 }
             });
 
-            const { id, titulo, descricao, url, valorDoConteudo, valorDaMensagem, Usuario } = conteudo;
+            const { id, titulo, descricao, url, largura, altura, valorDoConteudo, valorDaMensagem, Usuario } = conteudo;
             const liberado = pagamento || !valorDoConteudo || conteudo.usuarioId == usuarioId;
 
             return await {
@@ -35,7 +35,7 @@ exports.list = async (req, res) => {
                 descricao,
                 valorDoConteudo,
                 valorDaMensagem,
-                url: liberado ? url : await makeItBlur(url),
+                url: liberado ? await addWaterMark(url, largura, altura) : await makeItBlur(url, largura, altura),
                 pagamento,
                 liberado,
                 usuarioId: Usuario.id,
@@ -74,9 +74,9 @@ exports.get = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         const { usuario } = req;
-        const { titulo, descricao, midia, valorDoConteudo, valorDaMensagem } = req.body;
+        const { titulo, descricao, midia, valorDoConteudo, valorDaMensagem, largura, altura } = req.body;
 
-        let conteudo = Conteudo.build({ titulo, descricao, url: midia, valorDoConteudo, valorDaMensagem, usuarioId: usuario.id });
+        let conteudo = Conteudo.build({ titulo, descricao, url: midia, largura, altura, valorDoConteudo, valorDaMensagem, usuarioId: usuario.id });
         await conteudo.save();
         
         return res.send({ conteudo });
