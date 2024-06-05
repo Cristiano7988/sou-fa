@@ -1,10 +1,19 @@
-.app-bar { @include app-bar }
-div.mensagem {
-    position: fixed;
-    top: 0;
-    align-self: center;
-    z-index: 1;
-    padding: $halfSpaced;
-    width: calc(100% - (#{$halfSpaced} * 2));
+html {
+    body {
+        height: fit-content;
+        min-height: 100vh;
+        background-color: #fff;
+        display: grid;
+
+        .app-bar { @include app-bar }
+        div.mensagem {
+            position: fixed;
+            top: 0;
+            align-self: center;
+            z-index: 1;
+            padding: $halfSpaced;
+            width: calc(100% - (#{$halfSpaced} * 2));
+        }
+        .app-container {  @include app-container }
+    }
 }
-.app-container {  @include app-container }

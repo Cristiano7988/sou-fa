@@ -6,29 +6,95 @@
     z-index: 1;
 
     .app-toolbar {
+        max-width: 1200px;
+        margin: auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: $spaced;
-
+        padding: $halfSpaced;
+        
         .app-nav-links {
-            display: flex;
-            margin: 0 $spaced;
-            flex-grow: 1;
-            justify-content: space-between;
+            &.trigger {
+                cursor: pointer;
+            }
+            
+            @media screen and (min-width: 767px) {
+                position: relative;
+            }
 
-            div {
+            a {
+                color: inherit;
+            }
+            
+            span {
                 display: flex;
-                gap: $spaced;
-
-                a {
-                    color: $secondary;
-                    
-                    &:hover {
-                        color: $lighterSecondary;
+                align-items: start;
+                justify-content: center;
+                
+                svg {
+                    transition: rotate $duration;
+                    &.aberto {
+                        rotate: 180deg;
                     }
-                    &:active {
-                        color: $secondary;
+                }
+            }
+            
+            .app-menu-container {
+                position: absolute;
+                left: 0;
+                box-sizing: border-box;
+                width: 0px;
+                overflow: hidden;
+                transition: width $duration;
+
+                &.aberto {                    
+                    @media screen and (max-width: 767px) {
+                        width: 100%;
+                    }
+    
+                    @media screen and (min-width: 767px) {
+                        width: 100%;
+                    }
+                }
+
+                @media screen and (max-width: 767px) {
+                    top: 0;
+                    padding-top: $spaced * 2 + $halfSpaced;
+                    height: 100vh;
+                }
+
+                @media screen and (min-width: 767px) {
+                    top: 100%;
+                }
+
+                .app-menu {
+                    white-space: nowrap;
+                    border: 1px solid $primary;
+                    background-color: $secondary;
+                    color: $primary;
+                    border-radius: $corner;
+                    box-sizing: border-box;
+                    transition: width $duration, padding $duration;
+                    width: 0;
+                    overflow: hidden;
+                    
+                    @media screen and (max-width: 767px) {
+                        height: 100%;
+                    }
+                    
+                    &.aberto {
+                        padding: $halfSpaced;
+                        width: 100%;
+
+                        @media screen and (max-width: 767px) {
+                            width: 60%;
+                        }
+                    }
+
+                    hr {
+                        border: 1px solid $primary;
+                        border-bottom: 0px;
+                        width: 100%;
                     }
                 }
             }
@@ -36,7 +102,13 @@
 
         .app-pop-up-menu-trigger {
             cursor: pointer;
-            
+            display: flex;
+            align-items: center;
+
+            svg {
+                font-size: 2em;
+            }
+
             .app-pop-up-menu {
                 display: none;
                 position: absolute;
@@ -51,7 +123,7 @@
                 .app-button { @include app-button }
             }
 
-            &.show {
+            &.aberto {
                 .app-pop-up-menu {
                     display: flex;
                     flex-direction: column;

@@ -53,7 +53,14 @@ exports.get = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const conteudo = await Conteudo.findByPk(id);
+        const conteudo = await Conteudo.findByPk(id, {
+            include: [
+                {
+                    model: Usuario,
+                    attributes: [ "id", "email"]
+                }
+            ]
+        });
         if (!conteudo) return res.status(404).send({ message: "Conteúdo não encontrado." });
 
         const { paymentId, pagamentoId } = req.query;
@@ -63,6 +70,10 @@ exports.get = async (req, res) => {
 
         const payment = await new Payment(configDoApp).get({ id: paymentId });
         if (!payment) return res.status(402).send({ message: "Pagamento não processado no Mercado Pago." });
+
+        const { url, altura, largura } = conteudo;
+        conteudo.url = await addWaterMark(url, largura, altura);
+        conteudo.liberado = true;
 
         res.send({ conteudo });
     } catch (error) {

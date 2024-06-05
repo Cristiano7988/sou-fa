@@ -24,8 +24,8 @@ audio:not([controls]) {
   display: none; }
 
 html {
-  background: rgba(255, 255, 255, 0.9);
-  color: black;
+  background: rgba(10, 10, 10, 0.9);
+  color: #ffcc32;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%; }
 
@@ -83,7 +83,7 @@ dfn {
 
 mark {
   background: #ff0;
-  color: black; }
+  color: #ffcc32; }
 
 code,
 kbd,
@@ -130,7 +130,7 @@ figure {
   margin: 0; }
 
 fieldset {
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 204, 50, 0.05);
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em; }
 
@@ -189,46 +189,324 @@ input[type="checkbox"], input[type="radio"] {
   box-sizing: border-box;
   padding: 0; }
 
-.app-bar {
-  background: black;
-  color: rgba(255, 255, 255, 0.9);
-  position: sticky;
-  top: 0;
-  z-index: 1; }
-  .app-bar .app-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px; }
-    .app-bar .app-toolbar .app-nav-links {
+html body {
+  height: fit-content;
+  min-height: 100vh;
+  background-color: #fff;
+  display: grid; }
+  html body .app-bar {
+    background: #ffcc32;
+    color: rgba(10, 10, 10, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 1; }
+    html body .app-bar .app-toolbar {
+      max-width: 1200px;
+      margin: auto;
       display: flex;
-      margin: 0 20px;
-      flex-grow: 1;
-      justify-content: space-between; }
-      .app-bar .app-toolbar .app-nav-links div {
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px; }
+      html body .app-bar .app-toolbar .app-nav-links.trigger {
+        cursor: pointer; }
+      @media screen and (min-width: 767px) {
+        html body .app-bar .app-toolbar .app-nav-links {
+          position: relative; } }
+      html body .app-bar .app-toolbar .app-nav-links a {
+        color: inherit; }
+      html body .app-bar .app-toolbar .app-nav-links span {
         display: flex;
-        gap: 20px; }
-        .app-bar .app-toolbar .app-nav-links div a {
-          color: rgba(255, 255, 255, 0.9); }
-          .app-bar .app-toolbar .app-nav-links div a:hover {
-            color: white; }
-          .app-bar .app-toolbar .app-nav-links div a:active {
-            color: rgba(255, 255, 255, 0.9); }
-    .app-bar .app-toolbar .app-pop-up-menu-trigger {
-      cursor: pointer; }
-      .app-bar .app-toolbar .app-pop-up-menu-trigger .app-pop-up-menu {
-        display: none;
+        align-items: start;
+        justify-content: center; }
+        html body .app-bar .app-toolbar .app-nav-links span svg {
+          transition: rotate 0.25s; }
+          html body .app-bar .app-toolbar .app-nav-links span svg.aberto {
+            rotate: 180deg; }
+      html body .app-bar .app-toolbar .app-nav-links .app-menu-container {
         position: absolute;
-        top: 0;
-        right: 0;
-        background: white;
-        margin: 20px;
-        color: black;
-        border: 1px solid black;
-        border-radius: 5px; }
-        .app-bar .app-toolbar .app-pop-up-menu-trigger .app-pop-up-menu .app-button {
-          background: black;
-          color: rgba(255, 255, 255, 0.9);
+        left: 0;
+        box-sizing: border-box;
+        width: 0px;
+        overflow: hidden;
+        transition: width 0.25s; }
+        @media screen and (max-width: 767px) {
+          html body .app-bar .app-toolbar .app-nav-links .app-menu-container.aberto {
+            width: 100%; } }
+        @media screen and (min-width: 767px) {
+          html body .app-bar .app-toolbar .app-nav-links .app-menu-container.aberto {
+            width: 100%; } }
+        @media screen and (max-width: 767px) {
+          html body .app-bar .app-toolbar .app-nav-links .app-menu-container {
+            top: 0;
+            padding-top: 50px;
+            height: 100vh; } }
+        @media screen and (min-width: 767px) {
+          html body .app-bar .app-toolbar .app-nav-links .app-menu-container {
+            top: 100%; } }
+        html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu {
+          white-space: nowrap;
+          border: 1px solid #ffcc32;
+          background-color: rgba(10, 10, 10, 0.9);
+          color: #ffcc32;
+          border-radius: 5px;
+          box-sizing: border-box;
+          transition: width 0.25s, padding 0.25s;
+          width: 0;
+          overflow: hidden; }
+          @media screen and (max-width: 767px) {
+            html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu {
+              height: 100%; } }
+          html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu.aberto {
+            padding: 10px;
+            width: 100%; }
+            @media screen and (max-width: 767px) {
+              html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu.aberto {
+                width: 60%; } }
+          html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu hr {
+            border: 1px solid #ffcc32;
+            border-bottom: 0px;
+            width: 100%; }
+      html body .app-bar .app-toolbar .app-pop-up-menu-trigger {
+        cursor: pointer;
+        display: flex;
+        align-items: center; }
+        html body .app-bar .app-toolbar .app-pop-up-menu-trigger svg {
+          font-size: 2em; }
+        html body .app-bar .app-toolbar .app-pop-up-menu-trigger .app-pop-up-menu {
+          display: none;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: #0a0a0a;
+          margin: 20px;
+          color: #ffcc32;
+          border: 1px solid #ffcc32;
+          border-radius: 5px; }
+          html body .app-bar .app-toolbar .app-pop-up-menu-trigger .app-pop-up-menu .app-button {
+            background: #ffcc32;
+            color: rgba(10, 10, 10, 0.9);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            display: inline-block;
+            width: fit-content;
+            align-self: center;
+            cursor: pointer; }
+        html body .app-bar .app-toolbar .app-pop-up-menu-trigger.aberto .app-pop-up-menu {
+          display: flex;
+          flex-direction: column; }
+          html body .app-bar .app-toolbar .app-pop-up-menu-trigger.aberto .app-pop-up-menu a {
+            padding: 10px; }
+            html body .app-bar .app-toolbar .app-pop-up-menu-trigger.aberto .app-pop-up-menu a:hover {
+              background: rgba(255, 204, 50, 0.05); }
+            html body .app-bar .app-toolbar .app-pop-up-menu-trigger.aberto .app-pop-up-menu a:visited {
+              color: #ffcc32; }
+            html body .app-bar .app-toolbar .app-pop-up-menu-trigger.aberto .app-pop-up-menu a:active {
+              color: rgba(255, 204, 50, 0.5); }
+  html body div.mensagem {
+    position: fixed;
+    top: 0;
+    align-self: center;
+    z-index: 1;
+    padding: 10px;
+    width: calc(100% - (10px * 2)); }
+  html body .app-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; }
+    @media only screen and (max-width: 767px) {
+      html body .app-container {
+        padding-left: 10px;
+        padding-right: 10px; } }
+    html body .app-container h1 {
+      color: rgba(10, 10, 10, 0.75);
+      text-transform: capitalize; }
+    html body .app-container .app-card-container {
+      padding: 10px; }
+      html body .app-container .app-card-container h1, html body .app-container .app-card-container p {
+        color: rgba(10, 10, 10, 0.75);
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto; }
+      html body .app-container .app-card-container .app-card {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        justify-content: center;
+        text-align: center;
+        border-radius: 5px;
+        padding: 20px;
+        background-color: rgba(10, 10, 10, 0.9);
+        max-width: 500px; }
+        html body .app-container .app-card-container .app-card h1 {
+          color: rgba(255, 204, 50, 0.5);
+          max-width: 540px;
+          margin-left: auto;
+          margin-right: auto; }
+        html body .app-container .app-card-container .app-card .container-do-conteudo {
+          position: relative; }
+          html body .app-container .app-card-container .app-card .container-do-conteudo .identificacao-do-usuario {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: absolute;
+            top: 0;
+            background-color: rgba(10, 10, 10, 0.75);
+            padding: calc(10px / 2);
+            border-radius: 5px;
+            margin: 10px;
+            max-width: calc(100% -  (20px * 2) ); }
+            html body .app-container .app-card-container .app-card .container-do-conteudo .identificacao-do-usuario .autor-do-conteudo {
+              min-width: 40px;
+              min-height: 40px;
+              text-transform: capitalize;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-weight: 500;
+              background-color: rgba(255, 204, 50, 0.5);
+              color: rgba(10, 10, 10, 0.9);
+              border-radius: 50%; }
+            html body .app-container .app-card-container .app-card .container-do-conteudo .identificacao-do-usuario p {
+              width: 100%;
+              margin: unset;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: rgba(255, 204, 50, 0.5); }
+          html body .app-container .app-card-container .app-card .container-do-conteudo img {
+            max-width: 100%;
+            max-height: 80vh; }
+        html body .app-container .app-card-container .app-card .container-de-interacoes {
+          display: flex;
+          gap: 10px; }
+        html body .app-container .app-card-container .app-card .card-icon {
+          cursor: pointer; }
+        html body .app-container .app-card-container .app-card .checkout {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          gap: 20px;
+          text-align: left; }
+          html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-top: 20px; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] *.hidden {
+              visibility: hidden;
+              position: absolute; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] .par-de-campos-pequenos {
+              display: flex;
+              gap: 20px;
+              flex-grow: 1; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] span {
+              margin-bottom: 10px; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] .container {
+              height: 21px;
+              background: #fff; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] .container, html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] select {
+              border: 1px solid rgba(255, 204, 50, 0.25);
+              border-radius: 5px;
+              padding: 10px;
+              color: rgba(10, 10, 10, 0.75);
+              margin-bottom: 10px; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] .container, html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] select, html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] .app-input-container {
+              flex-grow: 1; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] select {
+              height: fit-content;
+              font-size: 16px;
+              background-image: url("data:image/svg+xml;utf8,<svg fill='rgba(255, 204, 50, 0.25)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+              background-repeat: no-repeat;
+              background-position-x: 100%;
+              background-position-y: 50%;
+              -webkit-appearance: none;
+              background-position-x: calc(100% - $halfSpaced); }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] progress {
+              height: 5px;
+              margin-bottom: 10px;
+              width: 100%; }
+            html body .app-container .app-card-container .app-card .checkout [id^=form-checkout] .botoes-de-acao {
+              display: flex;
+              width: 100%;
+              justify-content: space-between; }
+        html body .app-container .app-card-container .app-card .opcoes-de-cartao {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          flex-wrap: wrap;
+          margin: auto;
+          text-align: center; }
+          html body .app-container .app-card-container .app-card .opcoes-de-cartao .thumbnails-dos-cartoes {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0 20px; }
+            html body .app-container .app-card-container .app-card .opcoes-de-cartao .thumbnails-dos-cartoes img {
+              max-width: 50px; }
+        html body .app-container .app-card-container .app-card .app-input-container {
+          display: flex;
+          align-items: center;
+          position: relative; }
+          html body .app-container .app-card-container .app-card .app-input-container label {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            display: flex;
+            align-items: center;
+            color: rgba(10, 10, 10, 0.75);
+            background: #fff;
+            width: calc(100% - (10px * 2) - (1px * 2) );
+            border-radius: 5px;
+            padding: 10px;
+            text-align: left;
+            transition: top, font-size, color, padding;
+            transition-duration: 0.25s;
+            cursor: text; }
+          html body .app-container .app-card-container .app-card .app-input-container img {
+            display: none; }
+          html body .app-container .app-card-container .app-card .app-input-container .app-input {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px; }
+            html body .app-container .app-card-container .app-card .app-input-container .app-input input {
+              border: 1px solid rgba(255, 204, 50, 0.25);
+              border-radius: 5px;
+              padding: 10px;
+              width: 100%;
+              box-sizing: border-box;
+              color: rgba(10, 10, 10, 0.75);
+              background: #fff;
+              max-height: 43px; }
+              html body .app-container .app-card-container .app-card .app-input-container .app-input input:focus {
+                outline-color: #ffcc32; }
+            html body .app-container .app-card-container .app-card .app-input-container .app-input span {
+              font-size: small; }
+          html body .app-container .app-card-container .app-card .app-input-container .app-password-visibility {
+            position: absolute;
+            top: calc((25% ) / 2);
+            right: 10px;
+            cursor: pointer;
+            color: rgba(10, 10, 10, 0.75); }
+          html body .app-container .app-card-container .app-card .app-input-container.focused label {
+            padding: 0 5px;
+            top: -10px;
+            left: 10px;
+            font-size: small;
+            color: rgba(10, 10, 10, 0.75);
+            width: fit-content;
+            height: fit-content;
+            border-radius: 2px; }
+          html body .app-container .app-card-container .app-card .app-input-container.error label, html body .app-container .app-card-container .app-card .app-input-container.error * {
+            color: red; }
+          html body .app-container .app-card-container .app-card .app-input-container.error input {
+            border: 1px solid red; }
+        html body .app-container .app-card-container .app-card .app-button {
+          background: #ffcc32;
+          color: rgba(10, 10, 10, 0.9);
           border: none;
           border-radius: 5px;
           padding: 10px 20px;
@@ -236,197 +514,26 @@ input[type="checkbox"], input[type="radio"] {
           width: fit-content;
           align-self: center;
           cursor: pointer; }
-      .app-bar .app-toolbar .app-pop-up-menu-trigger.show .app-pop-up-menu {
-        display: flex;
-        flex-direction: column; }
-        .app-bar .app-toolbar .app-pop-up-menu-trigger.show .app-pop-up-menu a {
-          padding: 10px; }
-          .app-bar .app-toolbar .app-pop-up-menu-trigger.show .app-pop-up-menu a:hover {
-            background: rgba(0, 0, 0, 0.05); }
-          .app-bar .app-toolbar .app-pop-up-menu-trigger.show .app-pop-up-menu a:visited {
-            color: black; }
-          .app-bar .app-toolbar .app-pop-up-menu-trigger.show .app-pop-up-menu a:active {
-            color: rgba(0, 0, 0, 0.5); }
-
-div.mensagem {
-  position: fixed;
-  top: 0;
-  align-self: center;
-  z-index: 1;
-  padding: 10px;
-  width: calc(100% - (10px * 2)); }
-
-.app-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding-left: 20px;
-  padding-right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px; }
-  .app-container h1 {
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: capitalize; }
-  .app-container .app-card {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    justify-content: center;
-    text-align: center;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 20px; }
-    @media only screen and (min-width: 767px) {
-      .app-container .app-card {
-        min-width: 400px; } }
-    .app-container .app-card .container-do-conteudo {
-      position: relative; }
-      .app-container .app-card .container-do-conteudo .identificacao-do-usuario {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        position: absolute;
-        top: 0;
-        background-color: rgba(255, 255, 255, 0.75);
+    html body .app-container .add-content {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      margin: 10px;
+      cursor: pointer;
+      z-index: 1; }
+      html body .app-container .add-content svg {
+        box-shadow: 0 0 10px 0px;
+        background-color: rgba(10, 10, 10, 0.9);
+        border-radius: 50%;
+        font-size: 3em; }
+      html body .app-container .add-content span {
+        border: 1px solid #ffcc32;
+        background: rgba(10, 10, 10, 0.9);
         padding: 10px;
         border-radius: 5px;
-        margin: 10px;
-        max-width: calc(100% -  (20px * 2) ); }
-        .app-container .app-card .container-do-conteudo .identificacao-do-usuario p {
-          width: 100%;
-          margin: unset;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis; }
-      .app-container .app-card .container-do-conteudo img {
-        max-width: 100%;
-        max-height: 80vh; }
-    .app-container .app-card .container-de-interacoes {
-      display: flex;
-      gap: 10px; }
-    .app-container .app-card .card-icon {
-      cursor: pointer; }
-    .app-container .app-card .checkout {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 20px; }
-      .app-container .app-card .checkout [id^=form-checkout] {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        margin-top: 20px; }
-        .app-container .app-card .checkout [id^=form-checkout] *.hidden {
-          visibility: hidden;
-          position: absolute; }
-        .app-container .app-card .checkout [id^=form-checkout] .par-de-campos-pequenos {
-          display: flex;
-          gap: 20px;
-          flex-grow: 1; }
-        .app-container .app-card .checkout [id^=form-checkout] .container {
-          height: 21px; }
-        .app-container .app-card .checkout [id^=form-checkout] .container, .app-container .app-card .checkout [id^=form-checkout] select {
-          border: 1px solid rgba(0, 0, 0, 0.25);
-          border-radius: 5px;
-          padding: 10px;
-          color: rgba(0, 0, 0, 0.5);
-          margin-bottom: 10px; }
-        .app-container .app-card .checkout [id^=form-checkout] .container, .app-container .app-card .checkout [id^=form-checkout] select, .app-container .app-card .checkout [id^=form-checkout] .app-input-container {
-          flex-grow: 1; }
-        .app-container .app-card .checkout [id^=form-checkout] select {
-          height: fit-content;
-          font-size: 16px;
-          background-image: url("data:image/svg+xml;utf8,<svg fill='rgba(0, 0, 0, 0.25)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-          background-repeat: no-repeat;
-          background-position-x: 100%;
-          background-position-y: 50%;
-          -webkit-appearance: none;
-          background-position-x: calc(100% - $halfSpaced); }
-        .app-container .app-card .checkout [id^=form-checkout] progress {
-          height: 5px;
-          margin-bottom: 10px;
-          width: 100%; }
-        .app-container .app-card .checkout [id^=form-checkout] .botoes-de-acao {
-          display: flex;
-          width: 100%;
-          justify-content: space-between; }
-    .app-container .app-card .opcoes-de-cartao {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: auto; }
-      .app-container .app-card .opcoes-de-cartao .thumbnails-dos-cartoes {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0 20px; }
-        .app-container .app-card .opcoes-de-cartao .thumbnails-dos-cartoes img {
-          max-width: 50px; }
-    .app-container .app-card .app-input-container {
-      display: flex;
-      align-items: center;
-      position: relative; }
-      .app-container .app-card .app-input-container label {
         position: absolute;
-        top: 1px;
-        left: 1px;
-        display: flex;
-        align-items: center;
-        color: rgba(0, 0, 0, 0.5);
-        background: white;
-        width: calc(100% - (10px * 2) - (1px * 2) );
-        border-radius: 5px;
-        padding: 10px;
-        text-align: left;
-        transition: top, font-size, color, padding;
-        transition-duration: 0.25s;
-        cursor: text; }
-      .app-container .app-card .app-input-container img {
-        display: none; }
-      .app-container .app-card .app-input-container .app-input {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 10px; }
-        .app-container .app-card .app-input-container .app-input input {
-          border: 1px solid rgba(0, 0, 0, 0.25);
-          border-radius: 5px;
-          padding: 10px;
-          width: 100%;
-          box-sizing: border-box;
-          color: rgba(0, 0, 0, 0.5); }
-          .app-container .app-card .app-input-container .app-input input:focus {
-            outline-color: black; }
-        .app-container .app-card .app-input-container .app-input span {
-          font-size: small; }
-      .app-container .app-card .app-input-container .app-password-visibility {
-        position: absolute;
-        top: calc((25% ) / 2);
-        right: 10px;
-        cursor: pointer;
-        color: rgba(0, 0, 0, 0.25); }
-      .app-container .app-card .app-input-container.focused label {
-        padding: 0 5px;
-        top: -10px;
-        left: 10px;
-        font-size: small;
-        color: black;
-        width: fit-content;
-        height: fit-content; }
-      .app-container .app-card .app-input-container.error label, .app-container .app-card .app-input-container.error * {
-        color: red; }
-      .app-container .app-card .app-input-container.error input {
-        border: 1px solid red; }
-    .app-container .app-card .app-button {
-      background: black;
-      color: rgba(255, 255, 255, 0.9);
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      display: inline-block;
-      width: fit-content;
-      align-self: center;
-      cursor: pointer; }
+        bottom: 50%;
+        right: 50%;
+        white-space: nowrap; }
 
 /*# sourceMappingURL=main.css.map */

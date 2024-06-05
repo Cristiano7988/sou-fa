@@ -9,8 +9,8 @@
         left: $borderSize;
         display: flex;
         align-items: center;
-        color: $mediumPrimary;
-        background: $lighterSecondary;
+        color: $mediumSecondary;
+        background: #fff;
         width: calc(100% - (#{$halfSpaced} * 2) - (#{$borderSize} * 2) );
         border-radius: $corner;
         padding: $halfSpaced;
@@ -35,7 +35,9 @@
             padding: $halfSpaced;
             width: 100%;
             box-sizing: border-box;
-            color: $mediumPrimary;
+            color: $mediumSecondary;
+            background: #fff;
+            max-height: 43px;
 
             &:focus {
                 outline-color: $primary;
@@ -52,7 +54,7 @@
         top: calc((25% ) / 2);
         right: $halfSpaced;
         cursor: pointer;
-        color: $lightPrimary;
+        color: $mediumSecondary;
     }
 
     &.focused {
@@ -61,9 +63,10 @@
             top: -10px;
             left: $halfSpaced;
             font-size: small;
-            color: $primary;
+            color: $mediumSecondary;
             width: fit-content;
             height: fit-content;
+            border-radius: 2px;
         }
     }
 

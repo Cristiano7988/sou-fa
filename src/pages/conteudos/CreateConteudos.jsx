@@ -8,10 +8,12 @@ import { possui } from "../../data/helpers/possui";
 export const CreateConteudos = () => {
     const { usuario, atualizaMensagem } = useApp();
     const [data, setData] = useState({});
+    const navigate = useNavigate();
+
+    if (!usuario) navigate("/");
 
     const { REACT_APP_NODE_URL } = process.env;
-    const url = [REACT_APP_NODE_URL, "users", usuario.id, "conteudos"].join("/");
-    const navigate = useNavigate();
+    const url = [REACT_APP_NODE_URL, "users", usuario?.id, "conteudos"].join("/");
 
 
     const updateData = (item) => {
@@ -45,7 +47,7 @@ export const CreateConteudos = () => {
         })
     }
 
-    return <div>
+    return <div className="app-card-container">
         <h1 children="Conteúdo" />
 
         <div className="app-card">

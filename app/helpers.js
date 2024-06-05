@@ -40,7 +40,7 @@ exports.makeItBlur = async (url, largura, altura) => {
 
     const deviation = largura + altura;
     const casasDecimais = String(deviation).length;
-    const stdDeviation = deviation / casasDecimais / 10000;
+    const stdDeviation = deviation / casasDecimais / 10;
 
     const blurSvg = `
         <svg xmlns='http://www.w3.org/2000/svg' width='${largura}' height='${altura}' viewBox='0 0 ${largura} ${altura}'>

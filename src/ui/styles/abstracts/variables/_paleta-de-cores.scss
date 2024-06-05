@@ -1,14 +1,14 @@
-$red: 0;
-$green: 0;
-$blue: 0;
+$red: 255;
+$green: 204;
+$blue: 50;
 
 $primary: rgba($red, $green, $blue, 1);
 $mediumPrimary: rgba($red, $green, $blue, .5);
 $lightPrimary: rgba($red, $green, $blue, .25);
 $lighterPrimary: rgba($red, $green, $blue, .05);
 
-$secondary: rgba(255, 255, 255, .9);
-$mediumSecondary: rgba(255, 255, 255, .75);
-$lighterSecondary: rgba(255, 255, 255, 1);
+$secondary: rgba(10, 10, 10, .9);
+$mediumSecondary: rgba(10, 10, 10, .75);
+$lighterSecondary: rgba(10, 10, 10, 1);
 
 $danger: rgba(255, 0, 0, 1);

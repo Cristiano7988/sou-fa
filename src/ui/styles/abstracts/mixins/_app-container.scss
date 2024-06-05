@@ -1,16 +1,56 @@
 @mixin app-container {
     max-width: 1200px;
     margin: $spaced auto;
-    padding-left: $spaced;
-    padding-right: $spaced;
     display: flex;
     flex-direction: column;
     gap: $spaced;
 
+    @media only screen and (max-width: 767px) {
+        padding-left: $halfSpaced;
+        padding-right: $halfSpaced;    
+    }
+
     h1 {
-        color: $mediumPrimary;
+        color: $mediumSecondary;
         text-transform: capitalize;
     }
 
-    .app-card { @include app-card }
+    .app-card-container {
+        padding: $halfSpaced;
+
+        h1, p {
+            color: $mediumSecondary;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .app-card { @include app-card }
+    }
+
+    .add-content {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        margin: $halfSpaced;
+        cursor: pointer;
+        z-index: 1;
+
+        svg {
+            box-shadow: 0 0 10px 0px;
+            background-color: $secondary;
+            border-radius: 50%;
+            font-size: 3em;
+        }
+
+        span {
+            border: 1px solid $primary;
+            background: $secondary;
+            padding: $halfSpaced;
+            border-radius: $corner;
+            position: absolute;
+            bottom: 50%;
+            right: 50%;
+            white-space: nowrap;
+        }
+    }
 }

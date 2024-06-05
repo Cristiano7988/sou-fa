@@ -1,15 +1,19 @@
 @mixin app-card {
     display: flex;
     flex-direction: column;
-    align-self: center;
+    margin: auto;
     justify-content: center;
     text-align: center;
-    border: $borderSize solid $primary;
     border-radius: $corner;
     padding: $spaced;
+    background-color: $secondary;
+    max-width: 500px;
 
-    @media only screen and (min-width: 767px) {
-        min-width: 400px; // Apenas para desktop
+    h1 {
+        color: $mediumPrimary;
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .container-do-conteudo {
@@ -21,17 +25,31 @@
             position: absolute;
             top: 0;
             background-color: $mediumSecondary;
-            padding: $halfSpaced;
+            padding: calc(#{$halfSpaced} / 2);
             border-radius: $corner;
             margin: $halfSpaced;
             max-width: calc(100% -  (#{$spaced} * 2) );
-    
+            
+            .autor-do-conteudo {
+                min-width: 40px;
+                min-height: 40px;
+                text-transform: capitalize;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 500;
+                background-color: $mediumPrimary;
+                color: $secondary;
+                border-radius: 50%;
+            }
+
             p {
                 width: 100%;
                 margin: unset;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                color: $mediumPrimary;
             }
         }
         img {
@@ -54,6 +72,7 @@
         flex-wrap: wrap;
         justify-content: space-between;
         gap: $spaced;
+        text-align: left;
 
         [id^=form-checkout] {
             display: flex;
@@ -72,15 +91,20 @@
                 flex-grow: 1;
             }
 
+            span {
+                margin-bottom: $halfSpaced;
+            }
+
             .container {
                 height: 21px;
+                background: #fff;
             }
             
             .container, select {
                 border: $borderSize solid $lightPrimary;
                 border-radius: $corner;
                 padding: $halfSpaced;
-                color: $mediumPrimary;
+                color: $mediumSecondary;
                 margin-bottom: $halfSpaced;
 
             }
@@ -119,6 +143,7 @@
         gap: $spaced;
         flex-wrap: wrap;
         margin: auto;
+        text-align: center;
 
         .thumbnails-dos-cartoes {
             display: flex;

@@ -64,26 +64,28 @@ export const Auth = () => {
         });
     }
 
-    return <div className="app-card">
-        <h1 children={!title ? "Login" : "Cadastro"} />
+    return <div className="app-card-container">
+        <div className="app-card">
+            <h1 children={!title ? "Login" : "Cadastro"} />
 
-        <AppInput
-            type="email"
-            placeholder="Email"
-            required
-            updateData={updateData}
-        />
+            <AppInput
+                type="email"
+                placeholder="Email"
+                required
+                updateData={updateData}
+            />
 
-        <AppInput 
-            type="password"
-            placeholder="Senha"
-            required
-            updateData={updateData}
-        />
+            <AppInput 
+                type="password"
+                placeholder="Senha"
+                required
+                updateData={updateData}
+            />
 
-        {data && <AppButton
-            children="Entrar"
-            asyncEvent={concedeAcesso}
-        />}
+            {data && <AppButton
+                children="Entrar"
+                asyncEvent={concedeAcesso}
+            />}
+        </div>
     </div>
 };

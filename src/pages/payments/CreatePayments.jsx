@@ -3,7 +3,7 @@ import { useState } from "react";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import { useEffect } from "react";
 import { useApp } from "../../data/hooks/useApp";
-import { AccountCircle, MonetizationOn } from "@mui/icons-material";
+import { MonetizationOn } from "@mui/icons-material";
 import { AppInput } from "../../ui/components/AppInput";
 
 await loadMercadoPago();
@@ -17,7 +17,7 @@ export const CreatePayments = ({ conteudoInicial }) => {
     const [cartoesDeDebito, setCartoesDeDebito] = useState([]);
     const { REACT_APP_NODE_URL, REACT_APP_MP_PUBLIC_KEY } = process.env;
     const { usuario, atualizaMensagem } = useApp();
-    const [pagamento, setPagamento] = useState(conteudo.pagamento || !conteudo.valorDoConteudo || (conteudo.usuarioId == usuario.id));
+    const [pagamento, setPagamento] = useState(conteudo.pagamento || !conteudo.valorDoConteudo || (conteudo.usuarioId == usuario?.id));
     const { id } = conteudo;
 
     const navegaEntreEtapas = async () => {
@@ -190,11 +190,11 @@ export const CreatePayments = ({ conteudoInicial }) => {
     const mostrarDadosDoCartao = dadosDaCompra ? "hidden" : "";
     const mostrarDadosDaCompra = !dadosDaCompra ? "hidden" : "";
 
-    return <div>
-        <div className="app-card" style={{ textAlign: "left", marginBottom: "10px" }}>
+    return <div className="app-card-container">
+        <div className="app-card">
             <div className="container-do-conteudo">
                 <div className="identificacao-do-usuario">
-                    <AccountCircle />
+                    <div className="autor-do-conteudo" children={conteudo.Usuario?.email[0]} />
                     <p children={conteudo.Usuario?.email} />
                 </div>
                 <img
@@ -202,8 +202,6 @@ export const CreatePayments = ({ conteudoInicial }) => {
                     src={conteudo.url}
                 />
             </div>
-            <p children={<b>{conteudo.titulo}</b>} />
-            <p children={conteudo.descricao} />
 
             <div className="container-de-interacoes">
 
@@ -215,10 +213,10 @@ export const CreatePayments = ({ conteudoInicial }) => {
 
             <div className="checkout">
                 {iniciarPagamento && <form id={"form-checkout" + id}>
-                    <p>
+                    <span>
                         <b children="Valor: " />
                         { conteudo.valorDoConteudo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }
-                    </p>
+                    </span>
                     <div id={"cardNumber" + id} className={["container", mostrarDadosDoCartao].join(" ")} />
                     <div className="par-de-campos-pequenos">
                         <div id={"expirationDate" + id} className={["container", mostrarDadosDoCartao].join(" ")} />
