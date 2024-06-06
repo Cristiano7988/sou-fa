@@ -16,6 +16,9 @@ exports.list = async (req, res) => {
                     model: Usuario,
                     attributes: [ "id", "email"]
                 }
+            ],
+            order: [
+                ['createdAt', 'DESC']
             ]
         });
 
