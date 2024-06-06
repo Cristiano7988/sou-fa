@@ -8,9 +8,12 @@ const configDoApp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_T
 
 exports.list = async (req, res) => {
     try {
-        const { usuarioId = "*"} = req.query;
+        const { usuarioId = "*", mine = false} = req.query;
+
+        const where = mine ? { usuarioId } : {};
 
         let conteudos = await Conteudo.findAll({
+            where,
             include: [
                 {
                     model: Usuario,

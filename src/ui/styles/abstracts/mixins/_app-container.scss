@@ -1,9 +1,7 @@
 @mixin app-container {
     max-width: 1200px;
     margin: $spaced auto;
-    display: flex;
-    flex-direction: column;
-    gap: $spaced;
+    text-align: center;
 
     @media only screen and (max-width: 767px) {
         padding-left: $halfSpaced;
@@ -14,6 +12,11 @@
         color: $mediumSecondary;
         text-transform: capitalize;
     }
+
+    .secondary-text {
+        color: $mediumSecondary;
+    }
+
 
     .app-card-container {
         padding: $halfSpaced;

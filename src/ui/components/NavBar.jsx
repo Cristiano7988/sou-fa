@@ -29,7 +29,9 @@ export const NavBar = () => {
                 <span onClick={handleToggleMenu} children={<><b>{appName}</b>{usuario && <ArrowDropDown className={menu ? "aberto" : ""} />}</>} />
                 {<div ref={menuContainerRef} className={["app-menu-container", menu ? "aberto" : ""].join(" ")} onClick={handleClick}>
                     <div className={["app-menu", menu ? "aberto" : ""].join(" ")} onMouseLeave={handleMouseLeave}>
-                        <NavLink state={false} to="/conteudos" children="Destaques"/>
+                        <NavLink state={false} to="/conteudos"  children="Destaques"/>
+                        <hr />
+                        <NavLink state={{ filter: { mine: true } }} to="/conteudos"  children="Meus conteúdos"/>
                     </div>
                 </div>}
             </div>

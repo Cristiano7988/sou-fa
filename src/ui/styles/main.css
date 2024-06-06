@@ -234,7 +234,7 @@ html body {
             width: 100%; } }
         @media screen and (min-width: 767px) {
           html body .app-bar .app-toolbar .app-nav-links .app-menu-container.aberto {
-            width: 100%; } }
+            width: fit-content; } }
         @media screen and (max-width: 767px) {
           html body .app-bar .app-toolbar .app-nav-links .app-menu-container {
             top: 0;
@@ -258,7 +258,8 @@ html body {
               height: 100%; } }
           html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu.aberto {
             padding: 10px;
-            width: 100%; }
+            width: 100%;
+            min-width: fit-content; }
             @media screen and (max-width: 767px) {
               html body .app-bar .app-toolbar .app-nav-links .app-menu-container .app-menu.aberto {
                 width: 60%; } }
@@ -313,9 +314,7 @@ html body {
   html body .app-container {
     max-width: 1200px;
     margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; }
+    text-align: center; }
     @media only screen and (max-width: 767px) {
       html body .app-container {
         padding-left: 10px;
@@ -323,6 +322,8 @@ html body {
     html body .app-container h1 {
       color: rgba(10, 10, 10, 0.75);
       text-transform: capitalize; }
+    html body .app-container .secondary-text {
+      color: rgba(10, 10, 10, 0.75); }
     html body .app-container .app-card-container {
       padding: 10px; }
       html body .app-container .app-card-container h1, html body .app-container .app-card-container p {
