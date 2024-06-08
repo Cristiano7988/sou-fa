@@ -31,7 +31,9 @@ export const NavBar = () => {
                     <div className={["app-menu", menu ? "aberto" : ""].join(" ")} onMouseLeave={handleMouseLeave}>
                         <NavLink state={false} to="/conteudos"  children="Destaques"/>
                         <hr />
-                        <NavLink state={{ filter: { mine: true } }} to="/conteudos"  children="Meus conteúdos"/>
+                        <NavLink state={{ filter: "mine" }} to="/conteudos"  children="Meus conteúdos"/>
+                        <hr />
+                        <NavLink state={{ filter: "payed" }} to="/conteudos"  children="Adquiridos"/>
                     </div>
                 </div>}
             </div>

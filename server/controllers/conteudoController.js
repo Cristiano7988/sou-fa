@@ -8,18 +8,33 @@ const configDoApp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_T
 
 exports.list = async (req, res) => {
     try {
-        const { usuarioId = "*", mine = false} = req.query;
+        const include = [
+            {
+                model: Usuario,
+                attributes: [ "id", "email"]
+            }
+        ];
 
-        const where = mine ? { usuarioId } : {};
+        const { usuarioId = "*", filter = false} = req.query;
+        let where = {};
+
+        switch (filter) {
+            case "mine":
+                where = { usuarioId };
+                break;
+            case "payed":
+                include.push({
+                    model: Pagamento,
+                    where: {
+                        usuarioId
+                    }
+                });
+                break;
+        }
 
         let conteudos = await Conteudo.findAll({
             where,
-            include: [
-                {
-                    model: Usuario,
-                    attributes: [ "id", "email"]
-                }
-            ],
+            include,
             order: [
                 ['createdAt', 'DESC']
             ]

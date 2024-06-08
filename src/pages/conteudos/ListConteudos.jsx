@@ -21,21 +21,18 @@ export const ListConteudos = () => {
     const handleMouseLeave = () => setPopUp(false);
     const handleClick = () => navigate("create");
     const location = useLocation();
-    let { filter = false } = location?.state ?? {};
+    let { filter = false } = location?.state;
 
-    if (filter) {
-        [filter] = Object.entries(filter);
-        filter = filter.join("=")
-    }
 
-    const queries = "?" + ["usuarioId=" + usuario?.id, filter].join("&");
+    let queries = ["usuarioId=" + usuario?.id];
+    if (filter) queries.push("filter=" + filter);
     
 
     useEffect(() => {
         setCarregando(true);
         atualizaMensagem(location.state?.mensagem, location.state?.sucesso);
 
-        fetch(url + queries)
+        fetch(url + "?" + queries.join("&"))
             .then(r => r.json())
             .then(({ conteudos }) => {
                 setConteudos(conteudos);
