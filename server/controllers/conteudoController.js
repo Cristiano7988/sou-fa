@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const { Conteudo, Pagamento, Usuario } = require("../../app/models");
 const { Payment, MercadoPagoConfig } = require("mercadopago");
 const { makeItBlur, addWaterMark } = require("../../app/helpers");
@@ -15,7 +14,8 @@ exports.list = async (req, res) => {
             }
         ];
 
-        const { usuarioId = "*", filter = false} = req.query;
+        const limit = 5;
+        const { usuarioId = "*", filter = false, offset } = req.query;
         let where = {};
 
         switch (filter) {
@@ -35,6 +35,8 @@ exports.list = async (req, res) => {
         let conteudos = await Conteudo.findAll({
             where,
             include,
+            limit,
+            offset: Number(offset * limit),
             order: [
                 ['createdAt', 'DESC']
             ]

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
              */
         static associate(models) {
             Conteudo.hasMany(models.Pagamento);
-            Conteudo.belongsTo(models.Usuario);
+            Conteudo.belongsTo(models.Usuario, { foreignKey: "usuarioId"  });
         }
     }
     Conteudo.init({
